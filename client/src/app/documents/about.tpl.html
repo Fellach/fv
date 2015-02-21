@@ -1,0 +1,16 @@
+<ul class="collection with-header">
+    <li class="collection-header">
+        <h5>
+            <i class="mdi-maps-store-mall-directory"></i> 
+            {{ model.options.long_name[0].value }}
+        </h5>
+    </li>
+    <li class="collection-item">
+        {{ model.options.address[0].value }}<br>
+        {{ model.options.zip[0].value }} {{ model.options.city[0].value }}
+    </li>
+    <li class="collection-item">
+        nip: {{ model.options.nip[0].value }}<br>
+        regon: {{ model.options.regon[0].value }}
+    </li>
+</ul>

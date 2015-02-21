@@ -1,0 +1,41 @@
+<ul class="collapsible" data-collapsible="expandable">
+    <li>
+        <div class="collapsible-header">
+            <i class="mdi-social-person-outline"></i>
+            {{ model.document.client.long_name }}
+        </div>
+        <div class="collapsible-body">
+            <p>
+                {{ model.document.client.address }}<br>
+                {{ model.document.client.zip }} {{ model.document.client.city }}
+                <br><br>
+                {{ model.document.client.nip }}
+            </p>
+        </div>
+    </li>
+</ul>
+<div class="card">  
+    <div class="card-content">
+        <p>
+            FV nr
+            {{ model.document.serial_number }}
+            {{ model.document.serial_number_suffix }}
+            <span class="right" ng-if="model.document.print_date !== model.document.sell_date">({{ model.document.print_date }})</span>
+            <span class="right">{{ model.document.sell_date }}</span>
+        </p>
+        <div>
+            <table>
+                <tr ng-repeat-start="item in model.document.items">
+                    <td colspan="5">{{ item.title }}</td>
+                </tr>
+                <tr ng-repeat-end>
+                    <td>{{ item.pieces }}</td>
+                    <td>{{ item.vat }}</td>
+                    <td>{{ item.netto }}</td>
+                    <td>{{ item.vat_value }}</td>
+                    <td>{{ item.brutto }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

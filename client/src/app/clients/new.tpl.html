@@ -1,0 +1,58 @@
+<h5>Nowy klient</h5>
+<form>
+    <div class="row">
+        <div class="input-field col s12">
+            <label>Nazwa skrócona</label>
+            <input type="text" ng-model="model.client.short_name">
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <label>Nazwa pełna</label>
+            <input type="text" ng-model="model.client.long_name">
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <label>Adres</label>
+            <input type="text" ng-model="model.client.address">
+        </div>
+    </div>    
+    <div class="row">
+        <div class="input-field col s6">
+            <label>Kod pocztowy</label>
+            <input type="text" ng-model="model.client.zip">
+        </div>
+        <div class="input-field col s6">
+            <label>Miasto</label>
+            <input type="text" ng-model="model.client.city">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="input-field col s6">
+        <label>NIP</label>
+        <input type="text" ng-model="model.client.nip">
+    </div>
+    <div class="input-field col s6">
+        <label>Regon</label>
+        <input type="text" ng-model="model.client.regon">
+    </div>
+</div>
+<div class="row">
+    <div class="input-field col s6">
+        <label>E-mail</label>
+        <input type="email" ng-model="model.client.email" class="validate">
+    </div>
+    <div class="input-field col s6">
+        <label>Telefon</label>
+        <input type="text" ng-model="model.client.phone">
+    </div>
+</div>
+
+</form>
+<div class="section">
+    <a class="btn waves-effect waves-light right" ng-click="model.save()">
+        <i class="mdi-content-add medium"></i> Dodaj
+    </a>
+</div>

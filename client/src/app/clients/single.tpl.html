@@ -1,0 +1,10 @@
+<span class="card-title grey-text text-darken-4">{{ client.long_name }} <i class="mdi-navigation-close right"></i></span>
+<address class="section">
+    {{ client.address }} <br/>
+    {{ client.zip }} {{ client.city }}
+</address>
+<p>nip: {{ client.nip }}<br/>
+    regon: {{ client.regon }}
+</p>
+<div class="divider"></div>
+<p><a href="mailto:{{ client.email }}">{{ client.email }}</a><a class="right" href="tel:{{ client.phone }}">{{ client.phone }}</a></p>

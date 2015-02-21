@@ -1,0 +1,26 @@
+<table class="hoverable documents">
+	<thead>
+		<tr>
+			<th>Data</th>
+			<th>Numer</th>
+			<th>Netto</th>
+			<th>Vat</th>
+			<th>Brutto</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="doc in model.documents" ng-click="model.view(doc)" ng-dblclick="model.edit(doc)" ng-init="model.summaryIncrease(doc)">
+			<td>{{ doc.sell_date }}</td>
+			<td>{{ doc.serial_number }}{{ doc.serial_number_suffix }}</td>
+			<td>{{ doc.netto }}</td>
+			<td>{{ doc.vat }}</td>
+			<td>{{ doc.brutto }}</td>
+		</tr>
+		<tr class="summary">
+			<td colspan="2"></td>
+			<td>{{ model.summary.netto | number:2 }}</td>
+			<td>{{ model.summary.vat | number: 2 }}</td>
+			<td>{{ model.summary.brutto | number: 2 }}</td>
+		</tr>
+	</tbody>
+</table>

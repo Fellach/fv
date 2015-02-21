@@ -1,0 +1,97 @@
+<form>
+    <h4>Faktura VAT nr {{ model.document.serial_number }}{{ model.document.serial_number_suffix }}</h4>
+    <div class="section">
+        <div class="row">
+            <div class="col s6 input-field">
+                <label for="sd" ng-class="{active: model.document.sell_date.length > 0 }">Data sprzedaży</label>
+                <input id="sd" type="date" class="datepicker" ng-model="model.document.sell_date" />
+            </div>
+            <div class="col s6 input-field">
+                <label for="pd" ng-class="{active: model.document.print_date.length > 0 }">Data wystawienia</label>
+                <input id="pd" type="date" class="datepicker" ng-model="model.document.print_date" />
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <table class="documents">
+            <thead>
+                <tr>
+                    <th>Lp</th>
+                    <th>Tytuł</th>
+                    <th class="right-align">Cena</th>
+                    <th class="center-align">Ilość</th>
+                    <th class="center-align">VAT</th>
+                    <th class="right-align">Netto</th>
+                    <th class="right-align">W. VAT</th>
+                    <th class="right-align">Brutto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in model.document.items">
+                    <td><p class="lp">{{ $index + 1 }}</p></td>
+                    <td><input type="text" ng-model="item.title" /></td>
+                    <td><input class="right-align" type="text" ng-model="item.price" /></td>
+                    <td><input class="center-align" type="text" ng-model="item.pieces" /></td>
+                    <td><input class="center-align" type="text" ng-model="item.vat" /></td>
+                    <td><input class="right-align" type="text" ng-model="item.netto" /></td>
+                    <td><input class="right-align" type="text" ng-model="item.vat_value" /></td>
+                    <td><input class="right-align" type="text" ng-model="item.brutto" /></td>
+                </tr>
+                <tr>
+                    <td colspan="5"><button class="btn-floating waves-effect waves-light" ng-click="model.addItem()"><i class="mdi-content-add tiny"></i></button></td>
+                    <td><input class="right-align" type="text" ng-model="model.document.netto" /></td>
+                    <td><input class="right-align" type="text" ng-model="model.document.vat" /></td>
+                    <td><input class="right-align" type="text" ng-model="model.document.brutto" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="section">
+        <div class="row">
+            <div class="col m8">
+                <h5>
+                    Do zapłaty: <strong>{{ model.document.brutto }}</strong>
+                </h5>
+                <p>
+                    Słownie: <in-words amount="model.document.brutto" ng-model="model.document.in_word"/>
+                </p>
+            </div>
+            <div class="col m4">
+                <div class="row">
+                    <div class="col s6">
+                        <p ng-repeat="payment in model.options.payment">
+                            <input name="payment" type="radio" id="test{{ payment.id }}" ng-value="payment.value" ng-model="model.document.payment" />
+                            <label for="test{{ payment.id }}">{{ payment.value }}</label>
+                        </p>
+                    </div>
+                    <div class="col s6" ng-show="model.document.payment === 'przelew'">
+                        <select ng-model="model.document.payment_offset" ng-options="option.value*1 as option.value for option in model.options.payment_offset">
+                            <option value="" selected disabled>Termin</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+        <button class="btn waves-effect waves-light" ng-click="model.save()" ng-class="{disabled: !model.document.client_id > 0}">
+            Zapisz
+            <i class="mdi-action-done right"></i>
+        </button>
+        <div class="right" ng-if="model.document.id > 0">
+            <button class="btn-flat waves-effect waves-light" ng-click="model.get()">
+                Pobierz
+                <i class="mdi-file-file-download"></i>
+            </button>
+            <button class="btn-flat waves-effect waves-light" ng-click="model.send()">
+                Wyślij
+                <i class="mdi-content-send right"></i>
+            </button>
+            <button class="btn-flat waves-effect waves-light" ng-click="model.remove()">
+                Usuń
+                <i class="mdi-action-delete right"></i>
+            </button>
+        </div>
+    </div>
+</form>

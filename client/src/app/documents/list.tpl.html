@@ -1,0 +1,10 @@
+<h5>Poprzednie faktury</h5>
+<table class="hoverable documents">
+    <tbody>
+        <tr ng-repeat="doc in model.documents" ng-click="model.edit(doc)">
+            <td>{{ doc.sell_date }}</td>
+            <td>FV nr {{ doc.serial_number }} {{ doc.serial_number_suffix }}</td>
+            <td>{{ doc.netto }}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="fv" ng-controller="AppController">
+<head>
+  <title ng-bind="pageTitle"></title>
+  <meta charset="utf-8" />
+
+  <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+  <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+
+  <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+  <script type="text/javascript" src="<%= file %>"></script><% }); %>
+</head>
+<body>
+  <header class="fixed-action-btn">
+    <a ui-sref="fv.documents" class="btn-floating btn-large red"><i class="large mdi-action-view-list"></i></a>
+    <ul>
+      <li>
+        <a ui-sref="fv.clients" class="btn-floating btn-large red"><i class="large mdi-social-people"></i></a>
+      </li>
+      <li>
+        <a ui-sref="fv.documents.new" class="btn-floating btn-large red"><i class="large mdi-content-add"></i></a>
+      </li>
+    </ul>
+  </header>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col s12 l8">
+          <main ui-view="main"></main>
+        </div>
+        <div class="col s12 l4">
+          <aside ui-view="aside"></aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container">
+  </footer>
+</body>
+</html>

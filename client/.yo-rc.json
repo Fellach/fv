@@ -1,0 +1,6 @@
+{
+  "generator-ngbp": {
+    "projectName": "fv",
+    "useCoffeescript": false
+  }
+}

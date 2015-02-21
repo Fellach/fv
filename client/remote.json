@@ -1,0 +1,12 @@
+{
+    "directory" : "build",
+    "remote" : {
+        "host": "fv.majuskula.pl", 
+        "port": 80
+    },
+    "bounceToRemote" : true,
+    "bounces" : [
+        "api/.*"
+    ]
+    
+}

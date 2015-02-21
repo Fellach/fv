@@ -1,0 +1,21 @@
+<h5>Klienci</h5>
+
+<div class="card small" ng-repeat="client in model.clients">
+    <div class="card-image waves-effect waves-block waves-light">
+
+        <a class="btn-floating btn-large waves-effect waves-light z-depth-5 add-client" ng-click="model.choose(client)"><i class="medium mdi-content-reply"></i></a>        
+
+        <iframe class="activator" ng-click="model.choose(client)"
+        src="http://www.panoramio.com/wapi/template/photo.html?tag=hdr&amp;width=400&amp;height=300"
+        frameborder="0" width="400" height="300" scrolling="no" marginwidth="0" marginheight="0"> </iframe>
+    </div>
+    <div class="card-content">
+        <span class="card-title activator grey-text text-darken-4">{{ client.short_name }} <i class="mdi-navigation-more-vert right"></i></span>
+        <p><a href="mailto:{{ client.email }}">{{ client.email }}</a></p>
+        <p><a href="tel:{{ client.phone }}">{{ client.phone }}</a></p>
+    </div>
+    <div class="card-reveal">
+        <ng-include src="'clients/single.tpl.html'"></ng-include>
+    </div>
+</div>
+<!-- <button class="btn-floating waves-effect waves-light right orange" ng-click="model.newUser()"><i class="mdi-content-add tiny"></i></button> -->

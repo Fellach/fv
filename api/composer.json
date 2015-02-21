@@ -1,0 +1,17 @@
+{
+	"require": {
+		"slim/slim": "*",
+		"illuminate/database": "*",
+        "setasign/fpdi": "*",
+		"tecnick.com/tcpdf": "*",
+		"swiftmailer/swiftmailer": "*"
+	},
+	"autoload": {
+		"classmap": [
+		    "app/models", 
+		    "app/pdf", 
+		    "app/mail",
+		    "app/auth"
+		]
+	}
+}
