@@ -15,7 +15,7 @@ $app = new \Slim\Slim(array(
 	'id' => '\d+'
 ));
 
-//$app->add(new \Auth($config['auth']));
+$app->add(new \Auth($config['auth']));
 
 
 $app->get('/', function () use ($app) {

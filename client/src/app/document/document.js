@@ -35,6 +35,8 @@
                 firstDay: 1,
                 monthsFull: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
                 weekdaysShort: ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+                format: 'yyyy-mm-dd',
+                formatSubmit: 'yyyy-mm-dd',
             });
         }
 

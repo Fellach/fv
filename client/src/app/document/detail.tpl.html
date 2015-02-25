@@ -30,10 +30,10 @@
                 </tr>
                 <tr ng-repeat-end>
                     <td>{{ item.pieces }}</td>
-                    <td>{{ item.vat }}</td>
-                    <td>{{ item.netto }}</td>
-                    <td>{{ item.vat_value }}</td>
-                    <td>{{ item.brutto }}</td>
+                    <td>{{ item.vat  }}</td>
+                    <td>{{ item.netto | currency }}</td>
+                    <td>{{ item.vat_value | currency }}</td>
+                    <td>{{ item.brutto | currency }}</td>
                 </tr>
             </table>
         </div>

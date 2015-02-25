@@ -80,6 +80,7 @@ module.exports = function(grunt) {
             js: [
             'vendor/jquery/dist/jquery.min.js',
             'vendor/angular/angular.js',
+            'vendor/ng-currency/dist/ng-currency.js',
             'vendor/angular-resource/angular-resource.js',
             'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
             'vendor/angular-ui-router/release/angular-ui-router.js',
@@ -616,8 +617,8 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:all', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:build',
         'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-        'copy:build_appjs', 'copy:build_vendorjs', 'ngAnnotate:build', 'index:build', 'karmaconfig',
-        'karma:continuous'
+        'copy:build_appjs', 'copy:build_vendorjs', 'ngAnnotate:build', 'index:build'
+        
         ]);
 
     // The 'compile' task gets your app ready for deployment by concatenating and minifying your code.

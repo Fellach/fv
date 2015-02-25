@@ -52,4 +52,19 @@ class Document extends Model
         }
         $this->push();
     }
+
+    public function setVatAttribute($value) 
+    {
+        $this->attributes['vat'] = (float)str_replace(',', '.', $value);
+    }
+
+    public function setNettoAttribute($value) 
+    {
+        $this->attributes['netto'] = (float)str_replace(',', '.', $value);
+    }
+
+    public function setBruttoAttribute($value) 
+    {
+        $this->attributes['brutto'] = (float)str_replace(',', '.', $value);
+    }
 }
