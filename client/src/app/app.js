@@ -54,4 +54,5 @@
     'fv.entity.options',
     'fv.entity.client',
     'fv.entity.document',
+    'ng-currency'
 ])));
