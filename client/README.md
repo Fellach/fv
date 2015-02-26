@@ -1,6 +1,6 @@
-# Fv
+# Fv Client
 
-A simplified version of the ngBoilerplate angular project template.
+Based on angularjs and materialcss
 
 ***
 
