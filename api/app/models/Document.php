@@ -47,7 +47,7 @@ class Document extends Model
 
             $items = array();
             foreach($data['items'] as $values) {
-                $this->items()->updateExistingPivot($values['id'], $values);
+                $this->items()->find($values['id'])->update($values);
             }
         }
         $this->push();

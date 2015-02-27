@@ -7,7 +7,8 @@
     "angular-resource": "*",
     "angular-mocks": "*",
     "angular-ui-router": "*",
-    "materialize": "*"
+    "materialize": "*",
+    "ng-currency": "~0.8.2"
   },
   "dependencies": {}
 }

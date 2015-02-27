@@ -80,12 +80,12 @@ module.exports = function(grunt) {
             js: [
             'vendor/jquery/dist/jquery.min.js',
             'vendor/angular/angular.js',
-            'vendor/ng-currency/dist/ng-currency.js',
             'vendor/angular-resource/angular-resource.js',
             'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
             'vendor/angular-ui-router/release/angular-ui-router.js',
             'vendor/angular-ui-utils/modules/route/route.js',
-            'vendor/materialize/bin/materialize.js'
+            'vendor/materialize/bin/materialize.js',
+            'vendor/ng-currency/dist/ng-currency.js',
             ],
             css: [
             'vendor/materialize/bin/materialize.css'
@@ -413,9 +413,9 @@ module.exports = function(grunt) {
         connect: {
             server: {
                 options: {
-                  port: 9000,
+                  port: 8000,
                   base: './build',
-                  hostname: 'localhost',
+                  hostname: 'dev',
                   middleware: function (connect, options) {
                    var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
                    return [
@@ -515,7 +515,7 @@ module.exports = function(grunt) {
                 files: [
                 '<%= app_files.js %>'
                 ],
-                tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs', 'index:build' ]
+                tasks: [ 'jshint:src', 'copy:build_appjs', 'index:build' ]
             },
 
             /**
@@ -526,7 +526,7 @@ module.exports = function(grunt) {
                 files: [
                 '<%= app_files.coffee %>'
                 ],
-                tasks: [ 'coffeelint:src', 'coffee:source', 'karma:unit:run', 'copy:build_appjs', 'index:build' ]
+                tasks: [ 'coffeelint:src', 'coffee:source', 'copy:build_appjs', 'index:build' ]
             },
 
             /**
@@ -575,7 +575,7 @@ module.exports = function(grunt) {
                 files: [
                 '<%= app_files.jsunit %>'
                 ],
-                tasks: [ 'jshint:test', 'karma:unit:run' ],
+                tasks: [ 'jshint:test' ],
                 options: {
                     livereload: false
                 }
@@ -589,7 +589,7 @@ module.exports = function(grunt) {
                 files: [
                 '<%= app_files.coffeeunit %>'
                 ],
-                tasks: [ 'coffeelint:test', 'karma:unit:run' ],
+                tasks: [ 'coffeelint:test' ],
                 options: {
                     livereload: false
                 }

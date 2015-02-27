@@ -13,15 +13,7 @@
                   templateUrl: 'documents/about.tpl.html',  
                 }
             },
-            // resolve: {
-            //     documents: function (documents) {
-            //         return documents;
-            //     },
-            //     options: function (options) {
-            //         return options;
-            //     },
-            // },
-            data:{ pageTitle: 'Faktury' },
+            data:{ pageTitle: 'Ostatnie faktury' },
         });
     });
 
