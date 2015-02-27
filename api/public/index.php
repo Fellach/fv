@@ -47,13 +47,6 @@ $app->group('/api', function () use ($app) {
 			$doc = \Document::where('id', '=', $id)->with(array('items', 'client'))->first();
 			echo $doc->toJson();
 		});
-		//get one
-		$app->get('/pdf/:id', function ($id) {
-
-			$pdf = new \Pdf($id);
-			$pdf->generate();
-
-		});
 		
 		//save
 		$app->map('/', function () use ($app) {
@@ -86,7 +79,43 @@ $app->group('/api', function () use ($app) {
 			$doc->delete();
 			echo json_encode(array('status' => 200));
 		});
+
+		// pdf
+		$app->group('/pdf', function () use ($app) {
+
+			//send an email
+			$app->get('/send/:id', function ($id) {
+
+				$doc = \Document::where('id', '=', $id)->with(array('items', 'client'))->first();
+
+				if ($doc && $doc->client->email) {
+
+					$pdf = new \Pdf($doc);
+					$file = $pdf->get();
+
+					\Mail::send($file, $doc);
+					echo $doc->toJson();
+				}
+			});
+
+			//get
+			$app->get('/:id', function ($id) use ($app) {
+				$pdf = new \Pdf($id);
+
+				$file = $pdf->get();
+
+				$app->response->headers->set('Content-Type', "application/octet-stream");
+				$app->response->headers->set('Pragma', "public");
+				$app->response->headers->set('Expires', "0");
+				$app->response->headers->set('Cache-Control', "must-revalidate");
+				$app->response->headers->set('Content-Disposition', 'attachment; filename=' . basename($file['filename']));
+				$app->response->headers->set('Content-Transfer-Encoding', 'binary');
+				$app->response->headers->set('Content-Length', strlen($file['content']));
+				$app->response->setBody($file['content']);
+			});
+		});
 	});
+
 
 	/**
 	 * Clients
@@ -131,43 +160,6 @@ $app->group('/api', function () use ($app) {
 		});
 	});
 
-	/**
-	 * pdf
-	 * 
-	 */
-	$app->group('/pdf', function () use ($app) {
-
-		//send an email
-		$app->get('/send/:id', function ($id) {
-
-			$doc = \Document::where('id', '=', $id)->with(array('client'))->first();
-
-			if ($doc && $doc->client->email) {
-
-				$pdf = new \Pdf($doc);
-				$file = $pdf->get();
-
-				\Mail::send($file, $doc);
-				echo "ok";
-			}
-		});
-
-		//get
-		$app->get('/:id', function ($id) use ($app) {
-			$pdf = new \Pdf($id);
-
-			$file = $pdf->get();
-
-			$app->response->headers->set('Content-Type', "application/octet-stream");
-			$app->response->headers->set('Pragma', "public");
-			$app->response->headers->set('Expires', "0");
-			$app->response->headers->set('Cache-Control', "must-revalidate");
-			$app->response->headers->set('Content-Disposition', 'attachment; filename=' . basename($file['filename']));
-			$app->response->headers->set('Content-Transfer-Encoding', 'binary');
-			$app->response->headers->set('Content-Length', strlen($file['content']));
-			$app->response->setBody($file['content']);
-		});
-	});
 
 	/**
 	 * Options

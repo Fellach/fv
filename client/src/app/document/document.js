@@ -8,6 +8,7 @@
         model.get = get;
         model.remove = remove;
         model.addItem = addItem;
+        model.send = send;
 
         init();
 
@@ -50,13 +51,20 @@
                 model.document.$save(function (data) {
                     documents.push(data);
                     toast('Zapisano', 2000);
+                    $state.go('fv.documents.edit', {id: data.id});
 
                 }, onFailure);
             }
         }
 
         function get() {
-            $window.location = 'http://fv.majuskula.pl/api/pdf/' + model.document.id;
+            $window.location = 'api/document/pdf/' + model.document.id;
+        }
+
+        function send() {
+            model.document.$email(function (data){
+                toast('Wysłano do ' + model.document.client.email, 3000);                
+            }, onFailure);
         }
 
         function remove() {
@@ -75,6 +83,11 @@
             }, onFailure);
         }
 
+        function addItem() {
+            model.document.items.push({title: '', price:0, vat:23, pieces:1, vat_value:0, netto:0, brutto:0});
+        }
+
+
         function onClientChoose(event, client) {
             model.document.client_id = client.id;
         }
@@ -84,13 +97,18 @@
             toast('Błąd', 3000);
         }
 
-        function addItem() {
-            model.document.items.push({title: '', price:0, vat:23, pieces:1,vat_value:0,netto:0,brutto:0});
-        }
 
         function generateSerial() {
-            var lastNumber = documents[documents.length - 1].serial_number;
-            return ++lastNumber;
+            var last = documents[documents.length - 1],
+                today = new Date(),
+                month = (today.getMonth() + 1).toString();
+
+            if (true) { //todo, check print date
+                return month + (last.serial_number + 1);
+            } else {
+                return month + "1";
+            }
+            
         }
 
         function generateSuffix() {

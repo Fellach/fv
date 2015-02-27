@@ -47,7 +47,11 @@ class Document extends Model
 
             $items = array();
             foreach($data['items'] as $values) {
-                $this->items()->find($values['id'])->update($values);
+                if (!empty($values['id'])) {
+                    $this->items()->find($values['id'])->update($values);
+                } else {
+                    $this->items()->save(new \Item($values));
+                }
             }
         }
         $this->push();

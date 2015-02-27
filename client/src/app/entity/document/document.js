@@ -13,8 +13,16 @@
                 delete: {
                     method: "DELETE" 
                 },
+                pdf: {
+                    method: "GET",
+                    url: '/api/document/pdf/:id'
+                },
+                email: {
+                    method: "GET",
+                    url: '/api/document/pdf/send/:id'
+                }
             }
-            );
+        );
     });
 
 }(angular.module("fv.entity.document")));
