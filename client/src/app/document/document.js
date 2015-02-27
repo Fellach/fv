@@ -1,6 +1,6 @@
 (function(module) {
 
-    module.controller('DocumentController', function (options, document, documents, $timeout, $scope, $window) {
+    module.controller('DocumentController', function (options, document, documents, $timeout, $scope, $window, $state) {
         var model = this;
         model.document = document;
         model.options = options;
@@ -42,9 +42,16 @@
 
         function save() {
             if (model.document.id) {
-                model.document.$update();
+                model.document.$update(function (data) {
+                    toast('Zapisano', 2000);
+
+                }, onFailure);
             } else {
-                model.document.$save(onSuccess, onFailure);
+                model.document.$save(function (data) {
+                    documents.push(data);
+                    toast('Zapisano', 2000);
+
+                }, onFailure);
             }
         }
 
@@ -53,16 +60,23 @@
         }
 
         function remove() {
-            model.document.$delete( );
+            model.document.$delete(function (data){
+                if (data.status === 200) {
+                    for (var i = 0; i < documents.length; i++) {
+                        if (documents[i].id === model.document.id) {
+                            toast('Usunięto', 2000);
+                            documents.splice(i, 1);
+                            $state.go('fv.documents');
+                        }
+                    }
+                } else {
+                    onFailure('Nie usunięto');
+                }
+            }, onFailure);
         }
 
         function onClientChoose(event, client) {
             model.document.client_id = client.id;
-        }
-
-        function onSuccess(data, headers) {
-            documents.push(data);
-            toast('Zapisano', 2000);
         }
 
         function onFailure(response) {

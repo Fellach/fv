@@ -84,7 +84,7 @@ $app->group('/api', function () use ($app) {
 
 			$doc = \Document::where('id', '=', $id);
 			$doc->delete();
-			echo "ok";
+			echo json_encode(array('status' => 200));
 		});
 	});
 
