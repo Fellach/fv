@@ -65,7 +65,7 @@ $app->group('/api', function () use ($app) {
 			$pdf->generate();
 
 			echo $doc->toJson();
-		})->via('OPTIONS', 'POST');
+		})->via('POST');
 		
 		//update
 		$app->map('/:id', function ($id) use ($app) {
@@ -77,7 +77,7 @@ $app->group('/api', function () use ($app) {
 			$pdf->generate();
 
 			echo $doc->toJson();
-		})->via('OPTIONS', 'PUT');
+		})->via('PUT');
 
 		//delete
 		$app->delete('/:id', function ($id) {
@@ -155,7 +155,7 @@ $app->group('/api', function () use ($app) {
 		//get
 		$app->get('/:id', function ($id) use ($app) {
 			$pdf = new \Pdf($id);
-			//$pdf->generate(); //for tests onl;y
+
 			$file = $pdf->get();
 
 			$app->response->headers->set('Content-Type', "application/octet-stream");
