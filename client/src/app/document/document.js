@@ -39,6 +39,8 @@
                 format: 'yyyy-mm-dd',
                 formatSubmit: 'yyyy-mm-dd',
             });
+
+            $('.modal-trigger').leanModal();
         }
 
         function save() {

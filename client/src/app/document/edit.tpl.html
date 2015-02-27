@@ -80,18 +80,29 @@
             <i class="mdi-action-done right"></i>
         </button>
         <div class="right" ng-if="model.document.id > 0">
-            <button class="btn-flat waves-effect waves-light" ng-click="model.get()">
+            <a class="btn btn-flat waves-effect waves-light" ng-click="model.get()">
                 Pobierz
                 <i class="mdi-file-file-download"></i>
-            </button>
-            <button class="btn-flat waves-effect waves-light" ng-click="model.send()">
+            </a>
+            <a class="btn btn-flat waves-effect waves-light" ng-click="model.send()">
                 Wyślij
                 <i class="mdi-content-send right"></i>
-            </button>
-            <button class="btn-flat waves-effect waves-light" ng-click="model.remove()">
+            </a>
+            <a class="btn btn-flat waves-effect waves-light modal-trigger" href="#delete-modal" \>
                 Usuń
                 <i class="mdi-action-delete right"></i>
-            </button>
+            </a>
         </div>
     </div>
 </form>
+  
+<div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <h4>Usuń dokument</h4>
+        <p>Czy na pewno chcesz usunąć fakturę?</p>
+    </div>
+    <div class="modal-footer">
+        <a ng-click="model.remove()" class="waves-effect waves-green btn-flat modal-action modal-close">OK</a>
+        <a class="waves-effect waves-green btn-flat modal-action modal-close">Anuluj</a>
+    </div>
+</div>
