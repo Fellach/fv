@@ -415,7 +415,7 @@ module.exports = function(grunt) {
                 options: {
                   port: 8000,
                   base: './build',
-                  hostname: 'dev',
+                  hostname: 'localhost',
                   middleware: function (connect, options) {
                    var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
                    return [

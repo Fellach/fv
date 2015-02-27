@@ -103,8 +103,8 @@
                 today = new Date(),
                 month = (today.getMonth() + 1).toString();
 
-            if (true) { //todo, check print date
-                return month + (last.serial_number + 1);
+            if ((new Date(last.print_date)).getMonth() + 1 == month) {
+                return last.serial_number + 1;
             } else {
                 return month + "1";
             }
@@ -112,7 +112,8 @@
         }
 
         function generateSuffix() {
-            return '/15';
+            var today = new Date();
+            return '/' + (today.getFullYear() - 2000).toString();
         }
     });
 
