@@ -56,6 +56,7 @@ create table item(
     CONSTRAINT fk_document
         FOREIGN KEY (document_id)
         REFERENCES document (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
     )engine=innoDB;
 
 
