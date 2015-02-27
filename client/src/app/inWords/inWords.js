@@ -17,7 +17,6 @@
         ];
 
         function toWords(s) {
-            s = s.replace(',', '.');
             s = parseFloat(s).toFixed(2);
 
             var out = '',
@@ -55,7 +54,7 @@
             controller: function ($scope) {
                 $scope.$watch('amount', function(value) {
                     if (value) {
-                        $scope.inWords = toWords($scope.amount);
+                        $scope.inWords = toWords(value);
                         $scope.ngModel = $scope.inWords;
                     }
                 });
