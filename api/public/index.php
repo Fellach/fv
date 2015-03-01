@@ -3,6 +3,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+session_cache_limiter(false);
+session_start();
+
 require '../vendor/autoload.php';
 require '../app/passwords.php';
 require '../app/db.php';
@@ -15,7 +18,7 @@ $app = new \Slim\Slim(array(
 	'id' => '\d+'
 ));
 
-$app->add(new \Auth($config['auth']));
+$app->add(new \Auth());
 
 
 $app->get('/', function () use ($app) {
@@ -49,7 +52,7 @@ $app->group('/api', function () use ($app) {
 		});
 		
 		//save
-		$app->map('/', function () use ($app) {
+		$app->post('/', function () use ($app) {
 
 			$doc = new \Document();
 			$doc->createWith(json_decode($app->request->getBody(), true));
@@ -58,10 +61,10 @@ $app->group('/api', function () use ($app) {
 			$pdf->generate();
 
 			echo $doc->toJson();
-		})->via('POST');
+		});
 		
 		//update
-		$app->map('/:id', function ($id) use ($app) {
+		$app->put('/:id', function ($id) use ($app) {
 
 			$doc = \Document::where('id', '=', $id)->first();
 			$doc->updateWith(json_decode($app->request->getBody(), true));
@@ -70,7 +73,7 @@ $app->group('/api', function () use ($app) {
 			$pdf->generate();
 
 			echo $doc->toJson();
-		})->via('PUT');
+		});
 
 		//delete
 		$app->delete('/:id', function ($id) {
@@ -101,7 +104,6 @@ $app->group('/api', function () use ($app) {
 			//get
 			$app->get('/:id', function ($id) use ($app) {
 				$pdf = new \Pdf($id);
-
 				$file = $pdf->get();
 
 				$app->response->headers->set('Content-Type', "application/octet-stream");
@@ -175,5 +177,16 @@ $app->group('/api', function () use ($app) {
 		});
 	});
 });
+
+
+$app->get('/user/create/:user/:pass', function ($name, $pass) {
+
+	$user = new \User();
+	$user->name = $name;
+	$user->password = $pass;
+	$user->save();
+	echo "ok";
+});
+
 
 $app->run();

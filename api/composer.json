@@ -2,8 +2,7 @@
 	"require": {
 		"slim/slim": "*",
 		"illuminate/database": "*",
-        "setasign/fpdi": "*",
-		"tecnick.com/tcpdf": "*",
+  		"mpdf/mpdf": "*",
 		"swiftmailer/swiftmailer": "*"
 	},
 	"autoload": {

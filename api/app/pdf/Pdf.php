@@ -2,7 +2,7 @@
 
 class Pdf
 {
-    private $doc, $filename, $pdf, $options;
+    private $doc, $filename, $options;
 
     function __construct($idOrDoc) 
     {
@@ -16,26 +16,20 @@ class Pdf
 
     public function generate()
     {
-        $this->options = \Options::all();
+        $this->options = \Options::getArray();
         
-        $this->pdf = new \FPDI();
+        $pdf = new \mPDF();
 
-        $this->pdf->SetAutoPageBreak(true, 0);
-        $this->pdf->SetPrintHeader(false);
-        $this->pdf->setFontSubsetting(true);
-        //$this->pdf->setSourceFile(dirname(__FILE__) . '/../view/template.pdf');
-        //$tpl = $this->pdf->importPage(1);
-        
-        $this->pdf->addPage();
-        //$this->pdf->useTemplate($tpl);
-        //$fontname = $pdf->addTTFfont('Roboto-Light.ttf', 'TrueTypeUnicode', '', 32);
-        
-        $this->pdf->SetFont('freesans');
-        $this->pdf->SetTextColor(0,0,0);
+        $pdf->SetImportUse(); 
+        $pdf->SetHTMLHeader($header);
+        $pagecount = $pdf->SetSourceFile(dirname(__FILE__) . '/../view/template.pdf');
+        $tplIdx = $pdf->ImportPage($pagecount);
+        $pdf->UseTemplate($tplIdx, 0, 5);
 
-        $this->pdf->writeHTML($this->html(), true, false, true, false, '');
-
-        return $this->pdf->Output($this->filename, 'F');
+        $pdf->writeHTML(file_get_contents(dirname(__FILE__) . '/../../public/assets/css/fv-1.0.12.css'), 1);
+        $pdf->writeHTML($this->html());
+        $pdf->Output($this->filename, 'F');
+        return;
     }
 
     public function get()
@@ -47,20 +41,32 @@ class Pdf
     private function html()
     {
         $return = "
-        <p></p><p></p>
-        <h3>Faktura VAT nr {$this->doc->serial_number}{$this->doc->serial_number_suffix}</h3>
-        <table>
+        <style>
+            h3, h4, th, * {color: #444}
+            .light {font-family:robotolight }
+            .thin {font-family:robotothin }
+            .tp2 {margin-top: 2em }
+            .tp3 {margin-top: 3em }
+        </style>
+        <div class=\"light\">
+        <h3 class=\"right-align\">Faktura VAT nr {$this->doc->serial_number}{$this->doc->serial_number_suffix}</h3>
+        <div>
+            <p class=\"right-align\">
+            Data sprzedaży: <span class=\"thin\">{$this->doc->sell_date}</span>
+            &emsp;
+            Data wystawienia: <span class=\"thin\">{$this->doc->print_date}</span>
+            </p>
+        </div>
+        <table class=\"light tp2\">
             <tr>
                 <td>
-                    <p>Data sprzedaży<br>
-                    {$this->doc->sell_date}</p>
+                    <p>Sprzedawca</p>
+                    <p>
+                    {$this->options[long_name][0]}<br>
+                    {$this->options[address][0]}<br>
+                    {$this->options[zip][0]} {$this->options[city][0]}<br>
+                    {$this->options[nip][0]}</p>
                 </td>
-                <td>
-                    <p>Data wystawienia<br>
-                    {$this->doc->print_date}</p>
-                </td>
-            </tr>
-            <tr>
                 <td>
                     <p>Nabywca</p>
                     <p>
@@ -69,29 +75,21 @@ class Pdf
                     {$this->doc->client->zip} {$this->doc->client->city}<br>
                     {$this->doc->client->nip}</p>
                 </td>
-                <td>
-                    <p>Sprzedawca</p>
-                    <p>
-                    bibi studio Barbara Feleniak<br>
-                    Wyszyńskiego 82/6<br>
-                    66-400 Gorzów Wlkp.<br>
-                    1234567890</p>
-                </td>
             </tr>
         </table>
-        <p></p><p></p>
+        
         <div>
-            <table style=\"padding: 10pt 0 \">
+            <table class=\"thin tp3\">
                 <thead>
                     <tr>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">Lp</th>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">Tytuł</th>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">Cena</th>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">Ilość</th>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">VAT</th>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">Netto</th>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">W. VAT</th>
-                        <th style=\"border-bottom: 0.25pt solid #cccccc; color: #333; font-weight: bold;\">Brutto</th>
+                        <th class=\"center-align\">Lp</th>
+                        <th>Tytuł</th>
+                        <th class=\"right-align\">Cena</th>
+                        <th class=\"center-align\">Ilość</th>
+                        <th class=\"center-align\">VAT</th>
+                        <th class=\"right-align\">Netto</th>
+                        <th class=\"right-align\">W. VAT</th>
+                        <th class=\"right-align\">Brutto</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,14 +99,14 @@ class Pdf
                     $i++;
                     $return .= 
                    "<tr>
-                        <td>$i</td>
+                        <td class=\"center-align\">$i</td>
                         <td>{$item->title}</td>
-                        <td>{$item->price}</td>
-                        <td>{$item->pieces}</td>
-                        <td>{$item->vat}</td>
-                        <td>{$item->netto}</td>
-                        <td>{$item->vat_value}</td>
-                        <td>{$item->brutto}</td>
+                        <td class=\"right-align\">{$item->price}</td>
+                        <td class=\"center-align\">{$item->pieces}</td>
+                        <td class=\"center-align\">{$item->vat}</td>
+                        <td class=\"right-align\">{$item->netto}</td>
+                        <td class=\"right-align\">{$item->vat_value}</td>
+                        <td class=\"right-align\">{$item->brutto}</td>
                     </tr>";
                 }
                 
@@ -117,33 +115,34 @@ class Pdf
                 $return .=
                     "<tr>
                         <td colspan=\"5\"></td>
-                        <td style=\"border-top: 0.25pt solid #dddddd;\"><p>{$this->doc->netto}</p></td>
-                        <td style=\"border-top: 0.25pt solid #dddddd;\">{$this->doc->vat}</td>
-                        <td style=\"border-top: 0.25pt solid #dddddd; margin-top: 12pt; padding-top: 12pt\">{$this->doc->brutto}</td>
+                        <td class=\"right-align\">{$this->doc->netto}</td>
+                        <td class=\"right-align\">{$this->doc->vat}</td>
+                        <td class=\"right-align\">{$this->doc->brutto}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div>
+        <div class=\"tp2\">
             <h4>
-                Do zapłaty: <strong>{$this->doc->brutto}</strong>
+                Do zapłaty: <strong>{$this->doc->brutto} zł</strong>
             </h4>
             <p>
                 Słownie: {$this->doc->in_word}
             </p>
-            <p style=\"color: #333;\">
+            <p>
                 {$payment}
             ";
             if ($this->doc->payment === 'przelew') {
                 $offset = date('j.m.Y', strtotime("{$this->doc->print_date}  + {$this->doc->payment_offset} days"));
             $return .=
                 "
-                do {$offset} r. na konto bankowe nr 1234567890
+                do {$offset} r. na konto bankowe nr {$this->options[bank_account][0]}
                 ";
             }
             $return .= 
             "
             </p>
+        </div>
         </div>
         ";
 

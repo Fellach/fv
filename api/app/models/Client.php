@@ -1,8 +1,6 @@
 <?php
 
-use \Illuminate\Database\Eloquent\Model;
-
-class Client extends Model
+class Client extends FVModel
 {
 	protected $table = 'client';
     protected $guarded = array('country', 'updated_at', 'created_at');

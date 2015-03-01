@@ -1,8 +1,6 @@
 <?php
 
-use \Illuminate\Database\Eloquent\Model;
-
-class Document extends Model
+class Document extends FVModel
 {
 	protected $table = 'document';
     protected $guarded = array('updated_at', 'created_at');
