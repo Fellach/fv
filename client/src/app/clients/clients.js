@@ -19,7 +19,6 @@
         }
 
         function save() {
-            console.log(model.client);
             model.client.$save(onSuccess, onFailure);
         }
 

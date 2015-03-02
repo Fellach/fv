@@ -9,6 +9,7 @@
         model.remove = remove;
         model.addItem = addItem;
         model.send = send;
+        model.calculate = calculate;
 
         init();
 
@@ -120,6 +121,41 @@
             var today = new Date();
             return '/' + (today.getFullYear() - 2000).toString();
         }
+
+        function calculate(item, whatChanged) {
+            if (item.pieces && item.vat) {
+                switch (whatChanged) {
+                    case 'brutto':
+                        item.price = (100 * item.brutto) / (item.pieces * (100 + item.vat));
+                        item.netto = item.price * item.pieces;
+                        item.vat_value = item.netto * item.vat / 100;
+                        break;
+                    case 'netto':
+                        item.price = item.netto / item.pieces;
+                        item.vat_value = item.netto * item.vat / 100;
+                        item.brutto = item.netto + item.vat_value;
+                        break;
+                    case 'vat':
+                        item.price = (100 * item.vat_value) / (item.vat * item.pieces);
+                        item.netto = item.price * item.pieces;
+                        item.brutto = item.netto + item.vat_value;
+                        break;
+                    default:
+                        item.netto = item.price * item.pieces;
+                        item.vat_value = item.netto * item.vat / 100;
+                        item.brutto = item.netto + item.vat_value;
+                }
+
+                model.document.netto = model.document.vat = model.document.brutto = 0;
+
+                angular.forEach(model.document.items, function(item){
+                    model.document.netto += item.netto; 
+                    model.document.vat += item.vat_value; 
+                    model.document.brutto += item.brutto; 
+                });
+            }
+        }
+
     });
 
 }(angular.module("fv.document")));
