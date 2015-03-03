@@ -34,11 +34,17 @@
     app.run(function () {
     });
 
-    app.controller('AppController', function () {
+    app.controller('AppController', function ($rootScope) {
 
         init();
 
         function init() {
+            $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){ 
+                $rootScope.loaded = true;
+            });
+            $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams){ 
+                $rootScope.error = true;
+            });
         }
     });
 
