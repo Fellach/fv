@@ -3,6 +3,7 @@
     module.controller('DocumentController', function (options, document, documents, $timeout, $scope, $window, $state) {
         var model = this;
         model.document = document;
+        model.client = {};
         model.options = options;
         model.save = save;
         model.get = get;
@@ -14,7 +15,7 @@
         init();
 
         function init() {
-            $timeout(jql, 100);
+            $timeout(onReady, 100);
             $scope.$on('fv.client.choose', onClientChoose);
 
             if (!model.document.id) {
@@ -23,12 +24,14 @@
             }
         }
 
-        function jql() {
+        function onReady() {
             $('.collapsible').collapsible({
               accordion : false
           });
 
             $('select').material_select();
+
+            $(".button-collapse").sideNav({closeOnClick: true});
 
             $('.datepicker').pickadate({
                 today: 'Dziś',
@@ -93,6 +96,7 @@
 
         function onClientChoose(event, client) {
             model.document.client_id = client.id;
+            model.client = client;
         }
 
         function onFailure(response) {

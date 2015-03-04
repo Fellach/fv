@@ -25,18 +25,12 @@
     </ul>
   </header>
 
+  <div ui-view="aside"></div>
   
   <section>
     <div class="container">
-      <div class="row">
-        <div class="col s12 l8">
-          <ng-include src="'helper/loader.tpl.html'"></ng-include>
-          <main ui-view="main"></main>
-        </div>
-        <div class="col s12 l4">
-          <aside ui-view="aside"></aside>
-        </div>
-      </div>
+      <ng-include src="'helper/loader.tpl.html'"></ng-include>
+      <main ui-view="main"></main>
     </div>
   </section>
 

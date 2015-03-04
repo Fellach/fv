@@ -6,7 +6,6 @@
         model.client = new Client();
         model.choose = choose;
         model.save = save;
-        model.newUser = newUser;
 
         init();
 
@@ -20,10 +19,6 @@
 
         function save() {
             model.client.$save(onSuccess, onFailure);
-        }
-
-        function newUser() {
-            $state.go('fv.documents.new.add');
         }
 
         function onSuccess(data, headers) {

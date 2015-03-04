@@ -7,10 +7,6 @@
                 "main@": {
                     controller: 'DocumentsController as model',
                     templateUrl: 'documents/documents.tpl.html',
-                },
-                "aside@": {
-                  controller: 'DocumentsController as model',
-                  templateUrl: 'helper/about.tpl.html',  
                 }
             },
             data:{ pageTitle: 'Ostatnie faktury' },

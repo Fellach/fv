@@ -1,26 +1,46 @@
-<table class="hoverable documents">
-	<thead>
-		<tr>
-			<th>Data</th>
-			<th>Numer</th>
-			<th>Netto</th>
-			<th>Vat</th>
-			<th>Brutto</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="doc in model.documents" ng-click="model.view(doc)" ng-dblclick="model.edit(doc)" ng-init="model.summaryIncrease(doc)">
-			<td>{{ doc.sell_date }}</td>
-			<td>{{ doc.serial_number }}{{ doc.serial_number_suffix }}</td>
-			<td>{{ doc.netto | currency }}</td>
-			<td>{{ doc.vat | currency }}</td>
-			<td>{{ doc.brutto | currency }}</td>
-		</tr>
-		<tr class="summary">
-			<td colspan="2"></td>
-			<td>{{ model.summary.netto | currency  }}</td>
-			<td>{{ model.summary.vat | currency  }}</td>
-			<td>{{ model.summary.brutto | currency }}</td>
-		</tr>
-	</tbody>
-</table>
+<div class="row">
+	<div class="col s12">
+		<ul class="tabs">
+			<li class="tab col s6"><a class="active" href="#docs">Faktury</a></li>
+			<li class="tab col s6"><a href="#about">Ja</a></li>
+		</ul>
+	</div>
+	<div id="docs" class="col s12">
+		<div class="section">
+		<table class="hoverable documents">
+			<thead>
+				<tr>
+					<th>Data</th>
+					<th>Numer</th>
+					<th>Netto</th>
+					<th>Vat</th>
+					<th>Brutto</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="doc in model.documents" ng-click="model.edit(doc)" ng-init="model.summaryIncrease(doc)">
+					<td>{{ doc.sell_date }}</td>
+					<td>{{ doc.serial_number }}{{ doc.serial_number_suffix }}</td>
+					<td>{{ doc.netto | currency }}</td>
+					<td>{{ doc.vat | currency }}</td>
+					<td>{{ doc.brutto | currency }}</td>
+				</tr>
+				<tr class="summary">
+					<td colspan="2"></td>
+					<td>{{ model.summary.netto | currency  }}</td>
+					<td>{{ model.summary.vat | currency  }}</td>
+					<td>{{ model.summary.brutto | currency }}</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+
+	<div id="about" class="col s12">
+		<div class="section">
+		<ng-include src="'helper/about.tpl.html'"></ng-include>
+		</div>
+	</div>
+</div>
+
+

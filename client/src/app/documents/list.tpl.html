@@ -1,9 +1,11 @@
 
-<ul class="collection with-header">
+<ul id="slide-out" class="side-nav collection with-header">
     <li class="collection-header">
         <h5>Poprzednie faktury</h5>
     </li>
-    <li class="collection-item" ng-repeat="doc in model.documents" ng-click="model.edit(doc)">
-        {{ doc.sell_date }}&emsp;FV nr {{ doc.serial_number }}{{ doc.serial_number_suffix }}
+    <li class="collection-item" ng-repeat="doc in model.documents">
+        <a ui-sref="fv.documents.edit({id: doc.id})"> {{ doc.sell_date }}&emsp;FV nr {{ doc.serial_number }}{{ doc.serial_number_suffix }}</a>
     </li>
 </ul>
+
+<a data-activates="slide-out" class="button-collapse btn-large btn-flat"><i class="mdi-action-list"></i></a>

@@ -1,27 +1,35 @@
-table.document {
-    tr.summary {
-        td:not([colspan]) {
-            border-top: @summaryLine;
+.edit-document {
+    h4 {
+        small {
+            font-weight: 200;
         }
     }
-    thead {
-        th {
-            &:nth-child(1),
-            &:nth-child(4),
-            &:nth-child(5) {
-                width: 45px;
-            }
-            &:nth-child(3),
-            &:nth-child(6),
-            &:nth-child(7),
-            &:nth-child(8) {
-                width: 90px;
+
+    table.document {
+        tr.summary {
+            td:not([colspan]) {
+                border-top: @summaryLine;
             }
         }
-    }
-    td {
-        p.lp {
-            margin-top: -17px;
+        thead {
+            th {
+                &:nth-child(1),
+                &:nth-child(4),
+                &:nth-child(5) {
+                    width: 45px;
+                }
+                &:nth-child(3),
+                &:nth-child(6),
+                &:nth-child(7),
+                &:nth-child(8) {
+                    width: 90px;
+                }
+            }
+        }
+        td {
+            p.lp {
+                margin-top: -17px;
+            }
         }
     }
 }

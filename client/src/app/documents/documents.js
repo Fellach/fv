@@ -1,6 +1,6 @@
 (function(module) {
 
-    module.controller('DocumentsController', function ($state, options, documents) {
+    module.controller('DocumentsController', function ($state, options, documents, $timeout) {
         var model = this;
         model.documents = documents;
         model.options = options;
@@ -12,6 +12,11 @@
         init();
 
         function init() {
+            $timeout(onReady);
+        }
+
+        function onReady() {
+            $('ul.tabs').tabs();
         }
 
         function summaryIncrease(doc) {
