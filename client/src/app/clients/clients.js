@@ -1,10 +1,11 @@
 (function(module) {
 
-    module.controller('ClientsController', function (clients, $rootScope, Client, $state) {
+    module.controller('ClientsController', function (clients, $rootScope, Client) {
         var model = this;
         model.clients = clients;
         model.client = new Client();
         model.choose = choose;
+        model.choosed = 0;
         model.save = save;
 
         init();
@@ -15,6 +16,7 @@
 
         function choose(client) {
             $rootScope.$broadcast('fv.client.choose', client);
+            model.choosed = client.id;
         }
 
         function save() {

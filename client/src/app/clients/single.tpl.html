@@ -1,4 +1,5 @@
-<span class="card-title grey-text text-darken-4">{{ client.long_name }} <i class="mdi-navigation-close right"></i></span>
+<i class="mdi-navigation-close right"></i>
+<span class="card-title grey-text text-darken-4">{{ client.long_name }}</span>
 <address class="section">
     {{ client.address }} <br/>
     {{ client.zip }} {{ client.city }}
@@ -7,4 +8,16 @@
     regon: {{ client.regon }}
 </p>
 <div class="divider"></div>
-<p><a href="mailto:{{ client.email }}">{{ client.email }}</a><a class="right" href="tel:{{ client.phone }}">{{ client.phone }}</a></p>
+<p>
+	<a href="mailto:{{ client.email }}">{{ client.email }}</a>
+	<a class="right" href="tel:{{ client.phone }}">{{ client.phone }}</a>
+</p>
+<div class="card-footer">
+	<div class="divider"></div>
+	<button class="btn btn-flat waves-effect waves-light" ng-click="model.edit()">
+        <i class="mdi-content-create center"></i>
+    </button>
+    <button class="btn btn-flat waves-effect waves-light" ng-click="modal.remove()" \>
+        <i class="mdi-action-delete center"></i>
+    </button>
+</div>

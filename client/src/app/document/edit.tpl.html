@@ -68,7 +68,7 @@
                         </p>
                     </div>
                     <div class="col s6" ng-show="model.document.payment === 'przelew'">
-                        <select ng-model="model.document.payment_offset" ng-options="option.value*1 as option.value for option in model.options.payment_offset">
+                        <select ng-model="model.document.payment_offset" ng-options="option.value*1 as (option.value + ' dni') for option in model.options.payment_offset">
                             <option value="" selected disabled>Termin</option>
                         </select>
                     </div>

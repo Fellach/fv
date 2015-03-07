@@ -108,8 +108,8 @@
         function generateSerial() {
             try {
                 var last = documents[documents.length - 1],
-                today = new Date(),
-                month = (today.getMonth() + 1).toString();
+                    today = new Date(),
+                    month = (today.getMonth() + 1).toString();
 
                 if ((new Date(last.print_date)).getMonth() + 1 == month) {
                     return last.serial_number + 1;

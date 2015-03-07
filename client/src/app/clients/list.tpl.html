@@ -1,4 +1,4 @@
-<ul id="slide-out" class="side-nav collection">
+<ul id="slide-out" class="side-nav collection clients">
     <li class="collection-header">
         <h5>Klienci</h5>
     </li>
@@ -6,7 +6,9 @@
         <img src="http://lorempixel.com/index.php?x=310&y=310&cat=abstract" alt="" class="circle">
         <span class="title">{{ client.short_name }}</span>
         <p>xs</p>
-        <a class="secondary-content" ng-click="model.choose(client)"><i class="mdi-action-label-outline"></i></a>
+        <a class="secondary-content" ng-click="model.choose(client)">
+        	<i ng-class="{small: true, 'mdi-action-label-outline': client.id != model.choosed, 'mdi-action-label': client.id == model.choosed}"></i>
+        </a>
     </li>
 </ul>
 
