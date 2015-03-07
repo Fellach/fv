@@ -3,7 +3,7 @@
     <div class="col s8">
         <div class="row">
             <div class="col s12 m6 " ng-repeat="client in model.clients">
-                <div class="card midi">
+                <div class="card medium">
                     <div class="card-image waves-effect waves-block waves-light">
                         <img class="activator" src="http://lorempixel.com/index.php?x=310&y=310&cat=abstract">
                     </div>
@@ -13,7 +13,28 @@
                         <p><a href="tel:{{ client.phone }}">{{ client.phone }}</a></p>
                     </div>
                     <div class="card-reveal">
-                        <ng-include src="'clients/single.tpl.html'"></ng-include>
+                        <span class="card-title grey-text text-darken-4">{{ client.long_name }} <i class="mdi-navigation-close right"></i></span>
+                        <address class="section">
+                            {{ client.address }} <br/>
+                            {{ client.zip }} {{ client.city }}
+                        </address>
+                        <p>nip: {{ client.nip }}<br/>
+                            regon: {{ client.regon }}
+                        </p>
+                        <div class="divider"></div>
+                        <p>
+                            <a href="mailto:{{ client.email }}">{{ client.email }}</a>
+                            <a class="right" href="tel:{{ client.phone }}">{{ client.phone }}</a>
+                        </p>
+                        <div class="card-footer">
+                            <div class="divider"></div>
+                            <button class="btn btn-flat waves-effect waves-light" ng-click="model.edit(client)">
+                                <i class="mdi-content-create center"></i>
+                            </button>
+                            <button class="btn btn-flat waves-effect waves-light" ng-click="model.remove(client)" \>
+                                <i class="mdi-action-delete center"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

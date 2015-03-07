@@ -10,7 +10,7 @@
                 save: {
                     method: "POST" 
                 },
-                delete: {
+                remove: {
                     method: "DELETE" 
                 },
                 pdf: {

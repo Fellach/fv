@@ -128,37 +128,39 @@ $app->group('/api', function () use ($app) {
 		//get all
 		$app->get('/', function () {
 
-			$clients = \Client::all();
+			$clients = \Client::where('is_deleted', '=', false)->get();
 			echo $clients->toJson();
 		});
 
 		//get one
 		$app->get('/:id', function ($id) {
 
-			$client = \Client::where('id', '=', $id);
+			$client = \Client::find($id);
 			echo $client->toJson();
 		});
 
 		//save new
 		$app->post('/', function () use ($app) {
-
-			$client = \Client::firstOrCreate(json_decode($app->request->getBody(), true));
+			
+			$client = \Client::create(json_decode($app->request->getBody(), true));
 			echo $client->toJson();
 		});
 
 		//update
-		$app->put('/:id', function ($id) use ($app) {
-
-			$client = \Client::where('id', '=', $id)->update(json_decode($app->request->getBody(), true));
+		$app->post('/:id', function ($id) use ($app) {
+			$request = json_decode($app->request->getBody(), true);
+			deleteClient($request['id']);
+			unset($request['id']);
+			
+			$client = \Client::create($request);
 			echo $client->toJson();
 		});
 
 		//delete
 		$app->delete('/:id', function ($id) {
 
-			$client = \Client::where('id', '=', $id);
-			$client->delete();
-			echo "ok";
+			deleteClient($id);
+			echo json_encode(array('status' => 200));
 		});
 	});
 
@@ -190,3 +192,14 @@ $app->get('/user/create/:user/:pass', function ($name, $pass) {
 
 
 $app->run();
+
+
+function deleteClient($id) {
+	$client = \Client::find($id);
+	try {
+		$client->delete();
+	} catch (\Illuminate\Database\QueryException $qe) {
+		$client->is_deleted = true;
+		$client->save();
+	}
+}

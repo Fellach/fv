@@ -21,6 +21,8 @@
             if (!model.document.id) {
                 model.document = angular.extend(model.document, {items: [], serial_number: generateSerial(), serial_number_suffix: generateSuffix() });
                 addItem();
+            } else {
+                model.client = document.client;
             }
         }
 
@@ -74,7 +76,7 @@
         }
 
         function remove() {
-            model.document.$delete(function (data){
+            model.document.$remove(function (data){
                 if (data.status === 200) {
                     for (var i = 0; i < documents.length; i++) {
                         if (documents[i].id === model.document.id) {
