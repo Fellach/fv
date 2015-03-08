@@ -12,7 +12,6 @@ require '../app/db.php';
 
 $app = new \Slim\Slim(array(
 	'templates.path' => '../app/view',
-	'cookie.lifetime' => null,
 ));
 
 \Slim\Route::setDefaultConditions(array(

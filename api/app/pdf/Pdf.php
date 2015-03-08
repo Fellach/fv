@@ -38,6 +38,11 @@ class Pdf
     }
 
 
+    private function dec($float)
+    {
+        return number_format((float)$float, 2, ',', ''); 
+    }
+
     private function html()
     {
         $return = "
@@ -101,12 +106,12 @@ class Pdf
                    "<tr>
                         <td class=\"center-align\">$i</td>
                         <td>{$item->title}</td>
-                        <td class=\"right-align\">{$item->price}</td>
+                        <td class=\"right-align\">" . $this->dec($item->price) ."</td>
                         <td class=\"center-align\">{$item->pieces}</td>
                         <td class=\"center-align\">{$item->vat}</td>
-                        <td class=\"right-align\">{$item->netto}</td>
-                        <td class=\"right-align\">{$item->vat_value}</td>
-                        <td class=\"right-align\">{$item->brutto}</td>
+                        <td class=\"right-align\">" . $this->dec($item->netto) ."</td>
+                        <td class=\"right-align\">" . $this->dec($item->vat_value) ."</td>
+                        <td class=\"right-align\">" . $this->dec($item->brutto) ."</td>
                     </tr>";
                 }
                 
@@ -114,17 +119,17 @@ class Pdf
                 
                 $return .=
                     "<tr>
-                        <td colspan=\"5\"></td>
-                        <td class=\"right-align\">{$this->doc->netto}</td>
-                        <td class=\"right-align\">{$this->doc->vat}</td>
-                        <td class=\"right-align\">{$this->doc->brutto}</td>
+                        <td colspan=\"5\" class=\"right-align\">Razem:</td>
+                        <td class=\"right-align\">" . $this->dec($this->doc->netto) ."</td>
+                        <td class=\"right-align\">" . $this->dec($this->doc->vat) ."</td>
+                        <td class=\"right-align\">" . $this->dec($this->doc->brutto) ."</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class=\"tp2\">
             <h4>
-                Do zapłaty: <strong>{$this->doc->brutto} zł</strong>
+                Do zapłaty: <strong>" . $this->dec($this->doc->brutto) ." zł</strong>
             </h4>
             <p>
                 Słownie: {$this->doc->in_word}
