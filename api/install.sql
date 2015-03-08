@@ -1,7 +1,7 @@
 create table if not exists user (
     id integer not null auto_increment,
     name VARCHAR (64) not null,
-    password VARCHAR (64) not null
+    password VARCHAR (64) not null,
     updated_at datetime null,
     created_at timestamp not null,
 	PRIMARY KEY (id),

@@ -11,7 +11,8 @@ require '../app/passwords.php';
 require '../app/db.php';
 
 $app = new \Slim\Slim(array(
-	'templates.path' => '../app/view'
+	'templates.path' => '../app/view',
+	'cookie.lifetime' => null,
 ));
 
 \Slim\Route::setDefaultConditions(array(
@@ -29,7 +30,7 @@ $app->get('/', function () use ($app) {
 
 $app->group('/api', function () use ($app) {
 
-	$app->response->headers->set('Content-Type', 'application/json');
+	//$app->response->headers->set('Content-Type', 'application/json');
 
 	/**
 	 * FV
@@ -190,6 +191,14 @@ $app->get('/user/create/:user/:pass', function ($name, $pass) {
 	echo "ok";
 });
 
+$app->get('/logout', function () use ($app) {
+	$app->deleteCookie('PHPSESSID');
+	$_SESSION = array();
+	session_destroy();
+
+	echo "bye";
+	$app->response->redirect('/', 401);	
+});
 
 $app->run();
 
