@@ -70,7 +70,7 @@ class Pdf
                     {$this->options[long_name][0]}<br>
                     {$this->options[address][0]}<br>
                     {$this->options[zip][0]} {$this->options[city][0]}<br>
-                    {$this->options[nip][0]}</p>
+                    NIP: {$this->options[nip][0]}</p>
                 </td>
                 <td>
                     <p>Nabywca</p>
@@ -78,7 +78,7 @@ class Pdf
                     {$this->doc->client->long_name}<br>
                     {$this->doc->client->address}<br>
                     {$this->doc->client->zip} {$this->doc->client->city}<br>
-                    {$this->doc->client->nip}</p>
+                    NIP: {$this->doc->client->nip}</p>
                 </td>
             </tr>
         </table>

@@ -141,8 +141,11 @@ $app->group('/api', function () use ($app) {
 
 		//save new
 		$app->post('/', function () use ($app) {
-			
+
 			$client = \Client::create(json_decode($app->request->getBody(), true));
+
+			\Options::where('key', '=', 'thumbnail')->where('value', '=', $client->thumbnail)->delete();
+
 			echo $client->toJson();
 		});
 

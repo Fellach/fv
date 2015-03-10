@@ -1,37 +1,42 @@
-<form class="edit-client">
+<form class="edit-client"  name="editClient">
+
+    <div class="section center" ng-if="!editClient.$invalid" style="margin-top: -111px">
+        <img ng-src="{{ model.thumbnail(model.client.thumbnail, 'small') }}" alt="" class="circle">
+    </div>
+
     <div class="row">
         <div class="input-field col s12">
             <label for="short_name" ng-class="{ active: model.client.short_name }">Nazwa skrócona</label>
-            <input type="text" ng-model="model.client.short_name" id="short_name">
+            <input type="text" ng-model="model.client.short_name" id="short_name" required>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
             <label for="long_name" ng-class="{ active: model.client.long_name }">Nazwa pełna</label>
-            <input type="text" ng-model="model.client.long_name" id="long_name">
+            <input type="text" ng-model="model.client.long_name" id="long_name" required>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
             <label for="address" ng-class="{ active: model.client.address }">Adres</label>
-            <input type="text" ng-model="model.client.address" id="address">
+            <input type="text" ng-model="model.client.address" id="address" required>
         </div>
     </div>    
     <div class="row">
         <div class="input-field col s6">
             <label for="zip" ng-class="{ active: model.client.zip }">Kod pocztowy</label>
-            <input type="text" ng-model="model.client.zip" id="zip">
+            <input type="text" ng-model="model.client.zip" id="zip" required>
         </div>
         <div class="input-field col s6">
             <label for="city" ng-class="{ active: model.client.city }">Miasto</label>
-            <input type="text" ng-model="model.client.city" id="city">
+            <input type="text" ng-model="model.client.city" id="city" required>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="input-field col s6">
         <label for="nip" ng-class="{ active: model.client.nip }">NIP</label>
-        <input type="text" ng-model="model.client.nip" id="nip">
+        <input type="text" ng-model="model.client.nip" id="nip" required>
     </div>
     <div class="input-field col s6">
         <label for="regon" ng-class="{ active: model.client.regon }">Regon</label>
@@ -51,8 +56,8 @@
 
 </form>
 <div class="section">
-    <a class="btn waves-effect waves-light right" ng-click="model.save()">
+    <button class="btn waves-effect waves-light right" ng-click="model.save()" ng-disabled="editClient.$invalid">
         <span ng-hide="model.client.id"><i class="mdi-content-add medium"></i> Dodaj</span>
         <span ng-show="model.client.id"><i class="mdi-content-save medium"></i> Zapisz</span>
-    </a>
+    </button>
 </div>

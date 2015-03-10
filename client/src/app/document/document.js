@@ -11,6 +11,7 @@
         model.addItem = addItem;
         model.send = send;
         model.calculate = calculate;
+        model.onDateChange = onDateChange;
 
         init();
 
@@ -19,7 +20,7 @@
             $scope.$on('fv.client.choose', onClientChoose);
 
             if (!model.document.id) {
-                model.document = angular.extend(model.document, {items: [], serial_number: generateSerial(), serial_number_suffix: generateSuffix() });
+                model.document = angular.extend(model.document, {items: [], serial_number: generateSerial(new Date()), serial_number_suffix: generateSuffix() });
                 addItem();
             } else {
                 model.client = document.client;
@@ -106,18 +107,28 @@
             toast('Błąd', 3000);
         }
 
+        function onDateChange() {
+            model.document.serial_number = generateSerial(new Date(model.document.print_date));
+        }
 
-        function generateSerial() {
+
+        function generateSerial(printDate) {
             try {
-                var last = documents[documents.length - 1],
-                    today = new Date(),
-                    month = (today.getMonth() + 1).toString();
+                var last = {},
+                    month = (printDate.getMonth() + 1).toString();
 
-                if ((new Date(last.print_date)).getMonth() + 1 == month) {
+                angular.forEach(documents, function(doc) {
+                    if ((new Date(doc.print_date)).getMonth() + 1 == month) {
+                        last = doc;
+                    }
+                });    
+
+                if (last.serial_number) {
                     return last.serial_number + 1;
                 } else {
                     return month + "1";
                 }
+
             } catch (Error) {
                 return month + "1";
             }

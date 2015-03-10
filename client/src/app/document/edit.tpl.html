@@ -11,7 +11,7 @@
             </div>
             <div class="col s6 input-field">
                 <label for="pd" ng-class="{active: model.document.print_date.length > 0 }">Data wystawienia</label>
-                <input id="pd" type="text" class="datepicker" ng-model="model.document.print_date" />
+                <input id="pd" type="text" class="datepicker" ng-model="model.document.print_date" ng-change="model.onDateChange()" />
             </div>
         </div>
     </div>

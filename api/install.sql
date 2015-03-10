@@ -17,7 +17,7 @@ create table if not exists client (
     city VARCHAR (64) not null,
     zip VARCHAR(6) not null,
     nip VARCHAR (10) not null,
-    regon VARCHAR (10) not null,
+    regon VARCHAR (10) null,
     email VARCHAR (32) null,
     phone VARCHAR (16) null,
     thumbnail VARCHAR (512) null,
@@ -76,5 +76,5 @@ create table if not exists `options`(
     `key` VARCHAR (32) not null,
     `value` VARCHAR (192) not null,    
     PRIMARY KEY (id),
-    UNIQUE KEY `key_value_idx` (`key`(3),`value`(3))
+    UNIQUE KEY `key_value_idx` (`key`(3),`value`)
     )engine=innoDB;

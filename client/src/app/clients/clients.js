@@ -1,15 +1,23 @@
 (function(module) {
 
-    module.controller('ClientsController', function (clients, $rootScope, Client) {
+    module.controller('ClientsController', function (clients, $rootScope, Client, options) {
         var model = this;
         model.clients = clients;
-        model.client = new Client();
+        model.client = {};
         model.choose = choose;
         model.choosed = 0;
         model.save = save;
         model.edit = edit;
         model.remove = remove;
+        model.thumbnail = getThumbnail;
+        
+        init();
 
+        function init() {
+            model.client = new Client();
+            var randomThumb = Math.floor(Math.random() * options.thumbnail.length);
+            model.client.thumbnail = options.thumbnail[randomThumb].value;
+        }
 
         function choose(client) {
             $rootScope.$broadcast('fv.client.choose', client);
@@ -32,7 +40,7 @@
                     model.clients.push(data);
                     toast('Dodano', 2000);
                 }
-                model.client = new Client();
+                init();
 
             }, onFailure);
         }
@@ -59,6 +67,13 @@
         function onFailure(response) {
             console.log(response);
             toast('Błąd', 3000);
+        }
+
+        function getThumbnail(src, size) {
+            size = (size == 'small') ? '_s' : '_n';
+
+            var dot = src.lastIndexOf('.');
+            return src.slice(0, dot) + size + src.slice(dot);
         }
     });
 
