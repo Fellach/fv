@@ -124,7 +124,7 @@
                 });    
 
                 if (last.serial_number) {
-                    return last.serial_number + 1;
+                    return parseInt(last.serial_number) + 1;
                 } else {
                     return month + "1";
                 }
