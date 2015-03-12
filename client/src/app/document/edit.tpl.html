@@ -21,8 +21,8 @@
                 <tr>
                     <th>Lp</th>
                     <th>Tytuł</th>
-                    <th class="right-align">Cena</th>
                     <th class="center-align">Ilość</th>
+                    <th class="right-align">Cena</th>
                     <th class="center-align">VAT</th>
                     <th class="right-align">Netto</th>
                     <th class="right-align">W. VAT</th>
@@ -33,8 +33,8 @@
                 <tr ng-repeat="item in model.document.items">
                     <td><p class="lp">{{ $index + 1 }}</p></td>
                     <td><input type="text" ng-model="item.title" /></td>
-                    <td><input class="right-align" type="text" ng-model="item.price" ng-currency ng-change="model.calculate(item)"/></td>
                     <td><input class="center-align" type="text" ng-model="item.pieces"  ng-change="model.calculate(item)"/></td>
+                    <td><input class="right-align" type="text" ng-model="item.price" ng-currency ng-change="model.calculate(item)"/></td>
                     <td><input class="center-align" type="text" ng-model="item.vat"  ng-change="model.calculate(item)"/></td>
                     <td><input class="right-align" type="text" ng-model="item.netto" ng-currency  ng-change="model.calculate(item, 'netto')"/></td>
                     <td><input class="right-align" type="text" ng-model="item.vat_value"  ng-currency  ng-change="model.calculate(item, 'vat')"/></td>

@@ -48,13 +48,17 @@ class Pdf
         $return = "
         <style>
             h3, h4, th, * {color: #444}
+            th, td {font-size: 0.9em, vertical-align: top; }
+            thead tr th {border-bottom: 0.2pt solid #666}
+            .summary {border-bottom: 0.2pt solid #ddd; border-top: 0.2pt solid #666;}
             .light {font-family:robotolight }
             .thin {font-family:robotothin }
             .tp2 {margin-top: 2em }
             .tp3 {margin-top: 3em }
+            .gray {color: #666 }
         </style>
         <div class=\"light\">
-        <h3 class=\"right-align\">Faktura VAT nr {$this->doc->serial_number}{$this->doc->serial_number_suffix}</h3>
+        <h3 class=\"right-align\">Faktura nr {$this->doc->serial_number}{$this->doc->serial_number_suffix}</h3>
         <div>
             <p class=\"right-align\">
             Data sprzedaży: <span class=\"thin\">{$this->doc->sell_date}</span>
@@ -62,26 +66,24 @@ class Pdf
             Data wystawienia: <span class=\"thin\">{$this->doc->print_date}</span>
             </p>
         </div>
-        <table class=\"light tp2\">
-            <tr>
-                <td>
-                    <p>Sprzedawca</p>
-                    <p>
-                    {$this->options[long_name][0]}<br>
-                    {$this->options[address][0]}<br>
-                    {$this->options[zip][0]} {$this->options[city][0]}<br>
-                    NIP: {$this->options[nip][0]}</p>
-                </td>
-                <td>
-                    <p>Nabywca</p>
-                    <p>
-                    {$this->doc->client->long_name}<br>
-                    {$this->doc->client->address}<br>
-                    {$this->doc->client->zip} {$this->doc->client->city}<br>
-                    NIP: {$this->doc->client->nip}</p>
-                </td>
-            </tr>
-        </table>
+        <div class=\"light tp2\">
+            <div style=\"float: left; width: 60%\">
+                <p class=\"thin\">Sprzedawca</p>
+                <p>
+                {$this->options[long_name][0]}<br>
+                {$this->options[address][0]}<br>
+                {$this->options[zip][0]} {$this->options[city][0]}<br>
+                NIP: {$this->options[nip][0]}</p>
+            </div>
+            <div style=\"float: left: width: 40%;\">
+                <p class=\"thin\">Nabywca</p>
+                <p>
+                {$this->doc->client->long_name}<br>
+                {$this->doc->client->address}<br>
+                {$this->doc->client->zip} {$this->doc->client->city}<br>
+                NIP: {$this->doc->client->nip}</p>
+            </div>
+        </div>
         
         <div>
             <table class=\"thin tp3\">
@@ -89,8 +91,8 @@ class Pdf
                     <tr>
                         <th class=\"center-align\">Lp</th>
                         <th>Tytuł</th>
-                        <th class=\"right-align\">Cena</th>
                         <th class=\"center-align\">Ilość</th>
+                        <th class=\"right-align\">Cena</th>
                         <th class=\"center-align\">VAT</th>
                         <th class=\"right-align\">Netto</th>
                         <th class=\"right-align\">W. VAT</th>
@@ -99,6 +101,8 @@ class Pdf
                 </thead>
                 <tbody>
                 ";
+
+                $taxValues = array();
                 $i = 0;
                 foreach ($this->doc->items as $item) {
                     $i++;
@@ -106,25 +110,44 @@ class Pdf
                    "<tr>
                         <td class=\"center-align\">$i</td>
                         <td>{$item->title}</td>
+                        <td class=\"center-align\">{$item->pieces} szt.</td>
                         <td class=\"right-align\">" . $this->dec($item->price) ."</td>
-                        <td class=\"center-align\">{$item->pieces}</td>
-                        <td class=\"center-align\">{$item->vat}</td>
+                        <td class=\"center-align\">{$item->vat}%</td>
                         <td class=\"right-align\">" . $this->dec($item->netto) ."</td>
                         <td class=\"right-align\">" . $this->dec($item->vat_value) ."</td>
                         <td class=\"right-align\">" . $this->dec($item->brutto) ."</td>
                     </tr>";
+
+                    $taxValues[$item->vat] += $item->netto;
                 }
                 
                 $payment = ucfirst($this->doc->payment);
                 
                 $return .=
                     "<tr>
-                        <td colspan=\"5\" class=\"right-align\">Razem:</td>
-                        <td class=\"right-align\">" . $this->dec($this->doc->netto) ."</td>
-                        <td class=\"right-align\">" . $this->dec($this->doc->vat) ."</td>
-                        <td class=\"right-align\">" . $this->dec($this->doc->brutto) ."</td>
-                    </tr>
-                </tbody>
+                        <td colspan=\"4\"></td>
+                        <td class=\"right-align summary gray \">Razem:</td>
+                        <td class=\"right-align summary\">" . $this->dec($this->doc->netto) ."</td>
+                        <td class=\"right-align summary\">" . $this->dec($this->doc->vat) ."</td>
+                        <td class=\"right-align summary\">" . $this->dec($this->doc->brutto) ."</td>
+                    </tr>";
+
+                foreach ($taxValues as $vat => $netto) {
+                    $vatV = $netto * $vat / 100;
+                    $brutto = $netto + $vatV;
+
+                    $return .=
+                    "<tr>
+                        <td colspan=\"4\"></td>
+                        <td class=\"right-align gray\">VAT {$vat}%:</td>
+                        <td class=\"right-align\">" . $this->dec($netto) ."</td>
+                        <td class=\"right-align\">" . $this->dec($vatV) ."</td>
+                        <td class=\"right-align\">" . $this->dec($brutto) ."</td>
+                    </tr>";
+                }
+                
+                $return .=
+                "</tbody>
             </table>
         </div>
         <div class=\"tp2\">
