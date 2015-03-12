@@ -60,24 +60,32 @@ class Pdf
         <div class=\"light\">
         <h3 class=\"right-align\">Faktura nr {$this->doc->serial_number}{$this->doc->serial_number_suffix}</h3>
         <div>
-            <p class=\"right-align\">
-            Data sprzedaży: <span class=\"thin\">{$this->doc->sell_date}</span>
-            &emsp;
-            Data wystawienia: <span class=\"thin\">{$this->doc->print_date}</span>
+            <p class=\"right-align\">";
+            if ($this->doc->print_date === $this->doc->sell_date) {
+                $return .= "
+                    <span class=\"thin\">{$this->doc->print_date}</span>";
+
+            } else {
+                $return .= "
+                    Data wystawienia: <span class=\"thin\">{$this->doc->print_date}</span>
+                    Data dokonania: <span class=\"thin\">{$this->doc->sell_date}</span>";
+            }
+         
+         $return .= "
             </p>
         </div>
         <div class=\"light tp2\">
-            <div style=\"float: left; width: 60%\">
-                <p class=\"thin\">Sprzedawca</p>
+            <div style=\"float: left; width: 55%\">
                 <p>
+                <span class=\"thin\">Sprzedawca</span><br>
                 {$this->options[long_name][0]}<br>
                 {$this->options[address][0]}<br>
                 {$this->options[zip][0]} {$this->options[city][0]}<br>
                 NIP: {$this->options[nip][0]}</p>
             </div>
-            <div style=\"float: left: width: 40%;\">
-                <p class=\"thin\">Nabywca</p>
+            <div style=\"float: left: width: 30%;\">
                 <p>
+                <span class=\"thin\">Nabywca</span><br>
                 {$this->doc->client->long_name}<br>
                 {$this->doc->client->address}<br>
                 {$this->doc->client->zip} {$this->doc->client->city}<br>
