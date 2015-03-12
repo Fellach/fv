@@ -1,6 +1,6 @@
 (function(module) {
 
-    module.controller('DocumentController', function (options, document, documents, $timeout, $scope, $window, $state) {
+    module.controller('DocumentController', function (options, document, documents, $timeout, $scope, $window, $state, $filter) {
         var model = this;
         model.document = document;
         model.client = {};
@@ -20,7 +20,13 @@
             $scope.$on('fv.client.choose', onClientChoose);
 
             if (!model.document.id) {
-                model.document = angular.extend(model.document, {items: [], serial_number: generateSerial(new Date()), serial_number_suffix: generateSuffix() });
+                model.document = angular.extend(model.document, {
+                    items: [], 
+                    serial_number: generateSerial(new Date()), 
+                    serial_number_suffix: generateSuffix(),
+                    print_date: $filter('date')(new Date(), 'yyyy-MM-dd'),
+                    sell_date: $filter('date')(new Date(), 'yyyy-MM-dd')
+                });
                 addItem();
             } else {
                 model.client = document.client;
@@ -41,8 +47,10 @@
                 clear: '',
                 close: 'Zamknij',
                 firstDay: 1,
-                monthsFull: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-                weekdaysShort: ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+                monthsFull: [ 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień' ],
+                monthsShort: [ 'sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paź', 'lis', 'gru' ],
+                weekdaysFull: [ 'niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota' ],
+                weekdaysShort: [ 'niedz.', 'pn.', 'wt.', 'śr.', 'cz.', 'pt.', 'sob.' ],
                 format: 'yyyy-mm-dd',
                 formatSubmit: 'yyyy-mm-dd',
             });
@@ -109,6 +117,7 @@
 
         function onDateChange() {
             model.document.serial_number = generateSerial(new Date(model.document.print_date));
+            model.document.sell_date = model.document.print_date;
         }
 
 

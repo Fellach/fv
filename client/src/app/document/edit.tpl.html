@@ -1,17 +1,17 @@
 <form class="edit-document">
     <h4>
-        Faktura VAT nr {{ model.document.serial_number }}{{ model.document.serial_number_suffix }}
+        Faktura nr {{ model.document.serial_number }}{{ model.document.serial_number_suffix }}
         <small class="grey-text text-darken-1" ng-show="model.client.id">dla {{ model.client.short_name }}</small>
     </h4>
     <div class="section">
         <div class="row">
             <div class="col s6 input-field">
-                <label for="sd" ng-class="{active: model.document.sell_date.length > 0 }">Data sprzedaży</label>
-                <input id="sd" type="text" class="datepicker" ng-model="model.document.sell_date" />
-            </div>
-            <div class="col s6 input-field">
                 <label for="pd" ng-class="{active: model.document.print_date.length > 0 }">Data wystawienia</label>
                 <input id="pd" type="text" class="datepicker" ng-model="model.document.print_date" ng-change="model.onDateChange()" />
+            </div>
+            <div class="col s6 input-field">
+                <label for="sd" ng-class="{active: model.document.sell_date.length > 0 }">Data dokonania</label>
+                <input id="sd" type="text" class="datepicker" ng-model="model.document.sell_date" />
             </div>
         </div>
     </div>
