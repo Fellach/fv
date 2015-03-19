@@ -5,3 +5,5 @@ bin/
 karma/
 passwords.php
 sftp-config.json
+fv.sublime-project
+fv.sublime-workspace

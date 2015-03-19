@@ -6,15 +6,14 @@ Created with [AngularJS](https://angularjs.org/) and [front-end framework](http:
 
 ## Quick Start
 
-To compile assets you need download dependences first, by typing two commands in one line:
-> npm install && bower install
+To compile assets you need download dependencies first, by typing two commands in one line:
+```shell
+npm install && bower install
+```
 
 assuming you have installed proper tools (node, bower, grunt).
 
-Then Grunt's tasks do rest:
-> grunt build
-and
-> grunt compile
+Then Grunt's tasks do the rest: `grunt build` and `grunt compile`
 
 (more info at [generator-ngbp](https://github.com/thardy/generator-ngbp)).
 
