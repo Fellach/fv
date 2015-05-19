@@ -41,6 +41,9 @@
             $('select').material_select();
 
             $(".button-collapse").sideNav({closeOnClick: true});
+            if (!model.document.id) {
+                $(".button-collapse").sideNav('show');
+            }
 
             $('.datepicker').pickadate({
                 today: 'Dziś',
@@ -61,13 +64,13 @@
         function save() {
             if (model.document.id) {
                 model.document.$update(function (data) {
-                    toast('Zapisano', 2000);
+                    Materialize.toast('Zapisano', 2000);
 
                 }, onFailure);
             } else {
                 model.document.$save(function (data) {
                     documents.push(data);
-                    toast('Zapisano', 2000);
+                    Materialize.toast('Zapisano', 2000);
                     $state.go('fv.documents.edit', {id: data.id});
 
                 }, onFailure);
@@ -80,7 +83,7 @@
 
         function send() {
             model.document.$email(function (data){
-                toast('Wysłano do ' + model.document.client.email, 3000);                
+                Materialize.toast('Wysłano do ' + model.document.client.email, 3000);                
             }, onFailure);
         }
 
@@ -89,7 +92,7 @@
                 if (data.status === 200) {
                     for (var i = 0; i < documents.length; i++) {
                         if (documents[i].id === model.document.id) {
-                            toast('Usunięto', 2000);
+                            Materialize.toast('Usunięto', 2000);
                             documents.splice(i, 1);
                             $state.go('fv.documents');
                         }
@@ -112,7 +115,7 @@
 
         function onFailure(response) {
             console.log(response);
-            toast('Błąd', 3000);
+            Materialize.toast('Błąd', 3000);
         }
 
         function onDateChange() {

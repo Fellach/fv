@@ -1,0 +1,16 @@
+INSERT INTO `options` (`key`, `value`) VALUES
+('thumbnail', 'http://c1.staticflickr.com/9/8669/16122860954_8e751f3165.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/4/3460/3884925836_50f5fc6319.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/4/3929/15441281691_1f689d43a6.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/8/7589/16562617089_b73f5e3b8a.jpg'),
+('thumbnail', 'http://c2.staticflickr.com/6/5007/5225642001_16f7e6b11d.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/8/7505/15311648554_f82d1b80bc.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/4/3925/15344788552_8cb19af6fb.jpg'),
+('thumbnail', 'http://c2.staticflickr.com/6/5596/14646694248_c3b71f7e21.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/8/7450/15739865913_f368044799.jpg'),
+('thumbnail', 'http://c1.staticflickr.com/9/8619/16504135730_ed5d4883c2.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/4/3941/15741507051_caf6a98e0c.jpg'),
+('thumbnail', 'http://c2.staticflickr.com/6/5304/5631203092_9320ec1688.jpg'),
+('thumbnail', 'http://c4.staticflickr.com/4/3934/15419076827_6d8def159c.jpg'),
+('thumbnail', 'http://c1.staticflickr.com/9/8583/16506317960_b1e3cc572f.jpg'),
+('thumbnail', 'http://c2.staticflickr.com/6/5610/15351385000_cefe7958a4.jpg');

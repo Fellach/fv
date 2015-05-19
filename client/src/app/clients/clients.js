@@ -34,11 +34,11 @@
                             model.clients[i] = data;
                         }
                     }
-                    toast('Zapisano', 2000);
+                    Materialize.toast('Zapisano', 2000);
 
                 } else {
                     model.clients.push(data);
-                    toast('Dodano', 2000);
+                    Materialize.toast('Dodano', 2000);
                 }
                 init();
 
@@ -55,7 +55,7 @@
                     for (var i = 0; i < model.clients.length; i++) {
                         if (model.clients[i].id === client.id) {
                             model.clients.splice(i, 1);
-                            toast('Usunięto', 2000);
+                            Materialize.toast('Usunięto', 2000);
                         }
                     }
                 } else {
@@ -66,7 +66,7 @@
 
         function onFailure(response) {
             console.log(response);
-            toast('Błąd', 3000);
+            Materialize.toast('Błąd', 3000);
         }
 
         function getThumbnail(src, size) {

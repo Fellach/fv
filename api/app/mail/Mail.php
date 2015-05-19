@@ -13,10 +13,14 @@ class Mail
 
         $message = \Swift_Message::newInstance()
         ->setSubject('Faktura VAT')
-        ->setFrom(array($config['mail']['from'] => 'MF'))
-        ->setTo(array($doc->client->email => $doc->client->long_name))
+        ->setFrom(array($config['mail']['from'] => 'Basia Feleniak'))
         ->setBody('Faktura w załączniku. Pozdrawiam')
         ->attach(\Swift_Attachment::fromPath($file['filename']));
+
+        if (!empty($doc->client->email)) {
+            $message->setTo(array($doc->client->email => $doc->client->long_name));
+        }
+        $message->setBcc(array("basia@feleniak.pl" => "Ja, Basia"));
 
         return $mailer->send($message);
     }

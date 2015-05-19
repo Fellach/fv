@@ -7,32 +7,37 @@
 	</div>
 	<div id="docs" class="col s12">
 		<div class="section">
-		<table class="hoverable documents">
-			<thead>
-				<tr>
-					<th>Data</th>
-					<th>Numer</th>
-					<th>Netto</th>
-					<th>Vat</th>
-					<th>Brutto</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="doc in model.documents" ng-click="model.edit(doc)" ng-init="model.summaryIncrease(doc)">
-					<td>{{ doc.sell_date }}</td>
-					<td>{{ doc.serial_number }}{{ doc.serial_number_suffix }}</td>
-					<td>{{ doc.netto | currency }}</td>
-					<td>{{ doc.vat | currency }}</td>
-					<td>{{ doc.brutto | currency }}</td>
-				</tr>
-				<tr class="summary">
-					<td colspan="2"></td>
-					<td>{{ model.summary.netto | currency  }}</td>
-					<td>{{ model.summary.vat | currency  }}</td>
-					<td>{{ model.summary.brutto | currency }}</td>
-				</tr>
-			</tbody>
-		</table>
+			<ul class="pagination">
+				<li class="disabled">mc:</li>
+				<li ng-repeat="(i, m) in model.months"><a class="waves-effect" ng-click="model.month = i;">{{ i }}</a></li>
+			</ul>
+		</div>	
+		<div class="section">
+			<table class="hoverable documents">
+				<thead>
+					<tr>
+						<th>Klient</th>
+						<th>Data</th>
+						<th>Numer</th>
+						<th>Netto</th>
+						<th>Vat</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="doc in model.documents | filter: model.monthsFilter | orderBy: '-sell_date'" ng-click="model.edit(doc)" ng-init="model.summaryIncrease(doc, $first)">
+						<td>{{ doc.client.short_name }}</td>
+						<td>{{ doc.sell_date }}</td>
+						<td>{{ doc.serial_number }}{{ doc.serial_number_suffix }}</td>
+						<td>{{ doc.netto | currency }}</td>
+						<td>{{ doc.vat | currency }}</td>
+					</tr>
+					<tr class="summary">
+						<td colspan="3"></td>
+						<td>{{ model.summary.netto | currency  }}</td>
+						<td>{{ model.summary.vat | currency  }}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 
