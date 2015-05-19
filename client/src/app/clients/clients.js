@@ -56,6 +56,7 @@
                         if (model.clients[i].id === client.id) {
                             model.clients.splice(i, 1);
                             Materialize.toast('Usunięto', 2000);
+                            init();
                         }
                     }
                 } else {

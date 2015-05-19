@@ -22,11 +22,11 @@
                     <th>Lp</th>
                     <th>Tytuł</th>
                     <th class="center-align">Ilość</th>
-                    <th class="right-align">Cena</th>
+                    <th class="center-align">Cena</th>
                     <th class="center-align">VAT</th>
-                    <th class="right-align">Netto</th>
-                    <th class="right-align">W. VAT</th>
-                    <th class="right-align">Brutto</th>
+                    <th class="center-align">Netto</th>
+                    <th class="center-align">W. VAT</th>
+                    <th class="center-align">Brutto</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,7 +78,7 @@
     </div>
     <div class="divider"></div>
     <div class="section">
-        <button class="btn waves-effect waves-light" ng-click="model.save()" ng-class="{disabled: !model.document.client_id > 0}">
+        <button class="btn waves-effect waves-light" ng-click="model.save()" ng-disabled="!model.document.client_id">
             Zapisz
             <i class="mdi-action-done right"></i>
         </button>
