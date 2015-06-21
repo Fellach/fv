@@ -178,9 +178,9 @@
                 model.document.netto = model.document.vat = model.document.brutto = 0;
 
                 angular.forEach(model.document.items, function(item){
-                    model.document.netto += item.netto; 
-                    model.document.vat += item.vat_value; 
-                    model.document.brutto += item.brutto; 
+                    model.document.netto += parseFloat(item.netto); 
+                    model.document.vat += parseFloat(item.vat_value); 
+                    model.document.brutto += parseFloat(item.brutto); 
                 });
             }
         }
