@@ -41,6 +41,7 @@
         function init() {
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){ 
                 $rootScope.loaded = true;
+                $rootScope.stateName = toState.name;
             });
             $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams){ 
                 $rootScope.error = true;

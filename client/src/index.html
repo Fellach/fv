@@ -7,22 +7,26 @@
 
   <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
   <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
   <script type="text/javascript" src="<%= file %>"></script><% }); %>
   <script type="text/javascript" src="https://code.angularjs.org/1.3.13/i18n/angular-locale_pl-pl.js"></script>
 </head>
 <body>
-  <header class="fixed-action-btn">
-    <a ui-sref="fv.documents" class="btn-floating btn-large red"><i class="large mdi-action-view-list"></i></a>
-    <ul>
-      <li>
-        <a ui-sref="fv.clients" class="btn-floating btn-large red"><i class="large mdi-social-people"></i></a>
-      </li>
-      <li>
-        <a ui-sref="fv.documents.new" class="btn-floating btn-large red"><i class="large mdi-content-add"></i></a>
-      </li>
-    </ul>
+  <header>
+    <nav>
+      <div class="nav-wrapper">
+        <a href class="brand-logo right">bibi studio</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+          <li ui-sref-active="active"><a ui-sref="fv.documents"><i class="medium material-icons left">view_list</i> Faktury</a></li>
+          <li ui-sref-active="active"><a ui-sref="fv.clients"><i class="medium material-icons left">group</i> Klienci</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div  class="fixed-action-btn" ng-hide="stateName === 'fv.documents.new'">
+      <a ui-sref="fv.documents.new" class="btn-floating btn-large red"><i class="large material-icons">add</i></a>
+    </div>
   </header>
 
   <div ui-view="aside"></div>

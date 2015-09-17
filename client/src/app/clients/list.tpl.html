@@ -7,9 +7,7 @@
         <span class="title">{{ client.short_name }}</span>
         <p>{{ client.nip }}</p>
         <a href="" class="secondary-content" ng-click="model.choose(client)">
-        	<i ng-class="{'orange-text': true, small: true, 'mdi-action-label-outline': client.id != model.choosed, 'mdi-action-label': client.id == model.choosed}"></i>
+        	<i class="orange-text small material-icons">{{ client.id !== model.choosed ? 'label_outline' : 'label' }}</i>
         </a>
     </li>
 </ul>
-
-<a data-activates="slide-out" class="button-collapse btn-large btn-flat"><i class="mdi-social-person"></i></a>

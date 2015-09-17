@@ -2,6 +2,7 @@
     <h4>
         Faktura nr {{ model.document.serial_number }}{{ model.document.serial_number_suffix }}
         <small class="grey-text text-darken-1" ng-show="model.client.id">dla {{ model.client.short_name }}</small>
+        <a data-activates="slide-out" class="button-collapse btn-flat"><i class="material-icons">person_add</i></a>
     </h4>
     <div class="section">
         <div class="row">
@@ -27,6 +28,7 @@
                     <th class="center-align">Netto</th>
                     <th class="center-align">W. VAT</th>
                     <th class="center-align">Brutto</th>
+                    <th class="center-align">Usuń</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,12 +41,14 @@
                     <td><input class="right-align" type="text" ng-model="item.netto" ng-currency  ng-change="model.calculate(item, 'netto')"/></td>
                     <td><input class="right-align" type="text" ng-model="item.vat_value"  ng-currency  ng-change="model.calculate(item, 'vat')"/></td>
                     <td><input class="right-align" type="text" ng-model="item.brutto" ng-currency  ng-change="model.calculate(item, 'brutto')"/></td>
+                    <td class="center-align"><a class="lp waves-effect waves-red red-text" ng-click="model.removeItem()"><i class="material-icons tiny">delete</i></a></td>
                 </tr>
                 <tr>
-                    <td colspan="5"><button class="btn-floating waves-effect waves-light" ng-click="model.addItem()"><i class="mdi-content-add tiny"></i></button></td>
+                    <td colspan="5"><button class="btn-flat waves-effect waves-light" ng-click="model.addItem()"><i class="material-icons tiny">add</i></button></td>
                     <td><p class="right-align">{{ model.document.netto | currency }}</p></td>
                     <td><p class="right-align">{{ model.document.vat | currency }}</p></td>
                     <td><p class="right-align">{{ model.document.brutto | currency }}</p></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -79,21 +83,23 @@
     <div class="divider"></div>
     <div class="section">
         <button class="btn waves-effect waves-light" ng-click="model.save()" ng-disabled="!model.document.client_id">
-            Zapisz
-            <i class="mdi-action-done right"></i>
+            Zapisz<i class="material-icons right">done</i>
+        </button>
+        <button class="btn waves-effect waves-light dark" ng-click="model.cancel()" ng-disabled="!model.document.client_id">
+            Anuluj<i class="material-icons right">cancel</i>
         </button>
         <div class="right" ng-if="model.document.id > 0">
+            <a class="btn btn-flat waves-effect waves-light" ng-click="model.duplicate()">
+                Duplikuj<i class="material-icons right">content_copy</i>
+            </a>
             <a class="btn btn-flat waves-effect waves-light" ng-click="model.get()">
-                Pobierz
-                <i class="mdi-file-file-download"></i>
+                Pobierz<i class="material-icons right">cloud_download</i>
             </a>
-            <a class="btn btn-flat waves-effect waves-light" ng-click="model.send()">
-                Wyślij
-                <i class="mdi-content-send right"></i>
+            <a class="btn btn-flat waves-effect waves-orange" ng-click="model.send()">
+                Wyślij<i class="material-icons right">send</i>
             </a>
-            <a class="btn btn-flat waves-effect waves-light modal-trigger" href="#delete-modal" \>
-                Usuń
-                <i class="mdi-action-delete right"></i>
+            <a class="btn btn-flat waves-effect waves-red modal-trigger" href="#delete-modal" \>
+                Usuń<i class="material-icons right">delete</i>
             </a>
         </div>
     </div>

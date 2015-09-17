@@ -48,8 +48,8 @@
                     templateUrl: 'document/edit.tpl.html'
                 },
                 "aside@": {
-                    controller: 'DocumentsController as model',
-                    templateUrl: 'documents/list.tpl.html',
+                    controller: 'ClientsController as model',
+                    templateUrl: 'clients/list.tpl.html'
                 }
             },
             resolve: {

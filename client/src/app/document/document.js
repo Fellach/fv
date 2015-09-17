@@ -2,7 +2,7 @@
 
     module.controller('DocumentController', function (options, document, documents, $timeout, $scope, $window, $state, $filter) {
         var model = this;
-        model.document = document;
+        model.document = angular.copy(document);
         model.client = {};
         model.options = options;
         model.save = save;
@@ -12,25 +12,29 @@
         model.send = send;
         model.calculate = calculate;
         model.onDateChange = onDateChange;
+        model.duplicate = duplicate;
+        model.cancel = cancel;
+        var copy = {};
 
         init();
 
         function init() {
             $timeout(onReady, 100);
-            $scope.$on('fv.client.choose', onClientChoose);
+
+            var onClientChooseHandler = $scope.$on('fv.client.choose', onClientChoose);
+            $scope.$on('$destroy', function(){
+                onClientChooseHandler();
+                cancel();
+            });
 
             if (!model.document.id) {
-                model.document = angular.extend(model.document, {
-                    items: [], 
-                    serial_number: generateSerial(new Date()), 
-                    serial_number_suffix: generateSuffix(),
-                    print_date: $filter('date')(new Date(), 'yyyy-MM-dd'),
-                    sell_date: $filter('date')(new Date(), 'yyyy-MM-dd')
-                });
+                initDoc(true);
                 addItem();
             } else {
-                model.client = document.client;
+                model.client = model.document.client;
             }
+
+            copy = angular.copy(model.document);
         }
 
         function onReady() {
@@ -65,6 +69,7 @@
             if (model.document.id) {
                 model.document.$update(function (data) {
                     Materialize.toast('Zapisano', 2000);
+                    document = angular.extend(document, data);
 
                 }, onFailure);
             } else {
@@ -182,6 +187,31 @@
                     model.document.vat += parseFloat(item.vat_value); 
                     model.document.brutto += parseFloat(item.brutto); 
                 });
+            }
+        }
+
+        function duplicate() {
+            delete model.document.id;
+            for (var i = model.document.items.length - 1; i >= 0; i--) {
+                delete model.document.items[i].id;
+            }
+            initDoc();
+        }
+
+        function cancel() {
+            model.document = angular.copy(copy);
+        }
+
+        function initDoc(isInitWithItems) {
+            model.document = angular.extend(model.document, { 
+                serial_number: generateSerial(new Date()), 
+                serial_number_suffix: generateSuffix(),
+                print_date: $filter('date')(new Date(), 'yyyy-MM-dd'),
+                sell_date: $filter('date')(new Date(), 'yyyy-MM-dd')
+            });
+
+            if (isInitWithItems) {
+                model.document.items = [];
             }
         }
 
