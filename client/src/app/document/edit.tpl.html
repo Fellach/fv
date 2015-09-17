@@ -41,7 +41,7 @@
                     <td><input class="right-align" type="text" ng-model="item.netto" ng-currency  ng-change="model.calculate(item, 'netto')"/></td>
                     <td><input class="right-align" type="text" ng-model="item.vat_value"  ng-currency  ng-change="model.calculate(item, 'vat')"/></td>
                     <td><input class="right-align" type="text" ng-model="item.brutto" ng-currency  ng-change="model.calculate(item, 'brutto')"/></td>
-                    <td class="center-align"><a class="lp waves-effect waves-red red-text" ng-click="model.removeItem()"><i class="material-icons tiny">delete</i></a></td>
+                    <td class="center-align"><a class="lp waves-effect waves-red red-text" ng-click="model.removeItem(item, $index)"><i class="material-icons tiny">delete</i></a></td>
                 </tr>
                 <tr>
                     <td colspan="5"><button class="btn-flat waves-effect waves-light" ng-click="model.addItem()"><i class="material-icons tiny">add</i></button></td>

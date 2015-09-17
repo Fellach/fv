@@ -83,6 +83,14 @@ $app->group('/api', function () use ($app) {
 			echo json_encode(array('status' => 200));
 		});
 
+		//delete an item
+		$app->delete('/:id/items/:id_item', function ($id, $id_item) {
+
+			$doc = \Document::find($id);
+			$doc->items()->find($id_item)->delete();
+			echo $doc->items->toJson();
+		});
+
 		// pdf
 		$app->group('/pdf', function () use ($app) {
 

@@ -1,6 +1,6 @@
 (function(module) {
 
-    module.controller('DocumentController', function (options, document, documents, $timeout, $scope, $window, $state, $filter) {
+    module.controller('DocumentController', function (options, document, documents, Document, $timeout, $scope, $window, $state, $filter) {
         var model = this;
         model.document = angular.copy(document);
         model.client = {};
@@ -9,6 +9,7 @@
         model.get = get;
         model.remove = remove;
         model.addItem = addItem;
+        model.removeItem = removeItem;
         model.send = send;
         model.calculate = calculate;
         model.onDateChange = onDateChange;
@@ -69,11 +70,13 @@
             if (model.document.id) {
                 model.document.$update(function (data) {
                     Materialize.toast('Zapisano', 2000);
+                    model.document = data;
                     document = angular.extend(document, data);
 
                 }, onFailure);
             } else {
                 model.document.$save(function (data) {
+                    model.document = data;
                     documents.push(data);
                     Materialize.toast('Zapisano', 2000);
                     $state.go('fv.documents.edit', {id: data.id});
@@ -110,6 +113,19 @@
 
         function addItem() {
             model.document.items.push({title: '', price:0, vat:23, pieces:1, vat_value:0, netto:0, brutto:0});
+        }
+
+        function removeItem(item, index) {
+            if (!item.id) {
+                model.document.items.splice(index, 1);
+                calculateSums();
+            } else {
+                Document.removeItem({id: model.document.id, id_item: item.id}).$promise.then(function (data){
+                    Materialize.toast('Usunięto', 2000);
+                    model.document.items = data;
+                    calculateSums();
+                });
+            }
         }
 
 
@@ -179,15 +195,18 @@
                         item.vat_value = item.netto * item.vat / 100;
                         item.brutto = item.netto + item.vat_value;
                 }
-
-                model.document.netto = model.document.vat = model.document.brutto = 0;
-
-                angular.forEach(model.document.items, function(item){
-                    model.document.netto += parseFloat(item.netto); 
-                    model.document.vat += parseFloat(item.vat_value); 
-                    model.document.brutto += parseFloat(item.brutto); 
-                });
+                calculateSums();
             }
+        }
+
+        function calculateSums() {
+            model.document.netto = model.document.vat = model.document.brutto = 0;
+
+            angular.forEach(model.document.items, function(item){
+                model.document.netto += parseFloat(item.netto); 
+                model.document.vat += parseFloat(item.vat_value); 
+                model.document.brutto += parseFloat(item.brutto); 
+            });
         }
 
         function duplicate() {
