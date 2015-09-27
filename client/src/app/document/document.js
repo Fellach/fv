@@ -116,14 +116,16 @@
         }
 
         function removeItem(item, index) {
-            if (!item.id) {
-                model.document.items.splice(index, 1);
-                calculateSums();
-            } else {
+            model.document.items.splice(index, 1);
+            calculateSums();
+
+            if (!!item.id) {
                 Document.removeItem({id: model.document.id, id_item: item.id}).$promise.then(function (data){
-                    Materialize.toast('Usunięto', 2000);
-                    model.document.items = data;
-                    calculateSums();
+                    if (data.status === 200) {
+                        Materialize.toast('Usunięto', 2000);
+                    } else {
+                        model.document.items.push(item);
+                    }
                 });
             }
         }

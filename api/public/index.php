@@ -88,7 +88,7 @@ $app->group('/api', function () use ($app) {
 
 			$doc = \Document::find($id);
 			$doc->items()->find($id_item)->delete();
-			echo $doc->items->toJson();
+			echo json_encode(array('status' => 200)); 
 		});
 
 		// pdf

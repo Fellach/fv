@@ -16,7 +16,6 @@
                 removeItem: {
                     method: "DELETE",
                     url: '/api/document/:id/items/:id_item',
-                    isArray: true
                 },
                 pdf: {
                     method: "GET",
