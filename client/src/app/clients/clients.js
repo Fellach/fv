@@ -15,8 +15,10 @@
 
         function init() {
             model.client = new Client();
-            var randomThumb = Math.floor(Math.random() * options.thumbnail.length);
-            model.client.thumbnail = options.thumbnail[randomThumb].value;
+            if (options) {
+                var randomThumb = Math.floor(Math.random() * options.thumbnail.length);
+                model.client.thumbnail = options.thumbnail[randomThumb].value;
+            }
         }
 
         function choose(client) {
