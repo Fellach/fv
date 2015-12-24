@@ -38,9 +38,15 @@ $app->group('/api', function () use ($app) {
 	$app->group('/document', function () use ($app) {
 
 		//get all
-		$app->get('/', function () {
+		$app->get('/', function () use ($app) {
 
-			$docs = \Document::with(array('items', 'client'))->get();
+			$year = $app->request->params('year');
+
+			if (!$year) {
+				$year = date_format(date_create(), 'Y');
+			}
+
+			$docs = \Document::whereYear('print_date', '=', $year)->with(array('items', 'client'))->get();
 			echo $docs->toJson();
 		});
 

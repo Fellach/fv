@@ -1,6 +1,6 @@
 (function(module) {
 
-    module.controller('DocumentsController', function ($state, options, documents, $timeout, $filter) {
+    module.controller('DocumentsController', function (options, documents, Document, $state, $scope, $timeout, $filter, $rootScope) {
         var model = this;
         model.documents = documents;
         model.options = options;
@@ -8,18 +8,31 @@
         model.summaryIncrease = summaryIncrease;
         model.view = view;
         model.edit = edit;
-        model.month = $filter('date')(documents[documents.length - 1].print_date, 'M');
+        model.month = '';
         model.months = {};
         model.monthsFilter = monthsFilter;
+        model.years = [2015, 2016];
+        model.getDocsByYear = getDocsByYear;
+
+        var year;
 
         init();
 
         function init() {
-            for (var i = 0; i < documents.length; i++) {
-                model.months[$filter('date')(documents[i].print_date, 'M')] = $filter('date')(documents[i].print_date, 'MMMM');
-            }
+            createFilters();
 
             $timeout(onReady);
+        }
+
+        function createFilters() {
+            model.months = {};
+
+            for (var i = 0; i < model.documents.length; i++) {
+                model.months[$filter('date')(model.documents[i].print_date, 'M')] = $filter('date')(model.documents[i].print_date, 'MMMM');
+            }
+
+            model.month = $filter('date')(model.documents[model.documents.length - 1].print_date, 'M');
+            year = $filter('date')(model.documents[model.documents.length - 1].print_date, 'yyyy');
         }
 
         function onReady() {
@@ -46,6 +59,24 @@
         function monthsFilter(doc) {
             return model.month === 0 || model.month === $filter('date')(doc.print_date, 'M');
         }
+
+        function getDocsByYear(y) {
+            if (year != y) {
+                Document.query({year: y}).$promise.then(function(results) {
+                    documents.length = 0;
+                    angular.extend(documents, results);
+                    model.documents = documents;
+
+                    createFilters();
+                });
+                year = y;
+                Materialize.toast('Zmieniono rok księgowy.', 2000);
+            }
+        }
+
+        $rootScope.$on('document.year.change', function(event, year) {
+            getDocsByYear(year);
+        });
     });
 
 }(angular.module("fv.documents")));

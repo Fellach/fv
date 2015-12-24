@@ -8,6 +8,8 @@
 	<div id="docs" class="col s12">
 		<div class="section">
 			<ul class="pagination">
+				<li class="disabled">rok:</li>
+				<li ng-repeat="year in model.years"><a class="waves-effect" ng-click="model.getDocsByYear(year);">{{ year }}</a></li>
 				<li class="disabled">mc:</li>
 				<li ng-repeat="(i, m) in model.months"><a class="waves-effect" ng-click="model.month = i;">{{ i }}</a></li>
 			</ul>

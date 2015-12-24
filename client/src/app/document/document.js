@@ -1,6 +1,6 @@
 (function(module) {
 
-    module.controller('DocumentController', function (options, document, documents, Document, $timeout, $scope, $window, $state, $filter) {
+    module.controller('DocumentController', function (options, document, documents, Document, $timeout, $scope, $window, $state, $filter, $rootScope) {
         var model = this;
         model.document = angular.copy(document);
         model.client = {};
@@ -91,7 +91,7 @@
 
         function send() {
             model.document.$email(function (data){
-                Materialize.toast('Wysłano do ' + model.document.client.email, 3000);                
+                Materialize.toast('Wysłano do ' + model.document.client.email, 3000);
             }, onFailure);
         }
 
@@ -142,21 +142,28 @@
         }
 
         function onDateChange() {
-            model.document.serial_number = generateSerial(new Date(model.document.print_date));
-            model.document.sell_date = model.document.print_date;
+            $rootScope.$broadcast('document.year.change', new Date(model.document.print_date).getFullYear());
+
+            $timeout(function () {
+                model.document.serial_number = generateSerial(new Date(model.document.print_date));
+                model.document.serial_number_suffix = generateSuffix(model.document.print_date);
+                model.document.sell_date = model.document.print_date;
+            }, 1000);
         }
 
 
         function generateSerial(printDate) {
             try {
                 var last = {},
-                    month = (printDate.getMonth() + 1).toString();
+                    month = printDate.getMonth();
 
                 angular.forEach(documents, function(doc) {
-                    if ((new Date(doc.print_date)).getMonth() + 1 == month) {
+                    if ((new Date(doc.print_date)).getMonth() === month) {
                         last = doc;
                     }
-                });    
+                });
+
+                month = (month + 1) + "";
 
                 if (last.serial_number) {
                     return parseInt(last.serial_number) + 1;
@@ -169,9 +176,9 @@
             }
         }
 
-        function generateSuffix() {
-            var today = new Date();
-            return '/' + (today.getFullYear() - 2000).toString();
+        function generateSuffix(printDate) {
+            var date = printDate ? new Date(printDate) : new Date();
+            return '/' + (date.getFullYear() - 2000).toString();
         }
 
         function calculate(item, whatChanged) {
