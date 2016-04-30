@@ -30,9 +30,10 @@
             for (var i = 0; i < model.documents.length; i++) {
                 model.months[$filter('date')(model.documents[i].print_date, 'M')] = $filter('date')(model.documents[i].print_date, 'MMMM');
             }
-
-            model.month = $filter('date')(model.documents[model.documents.length - 1].print_date, 'M');
-            year = $filter('date')(model.documents[model.documents.length - 1].print_date, 'yyyy');
+            if (model.documents.length > 0) {
+                model.month = $filter('date')(model.documents[model.documents.length - 1].print_date, 'M');
+                year = $filter('date')(model.documents[model.documents.length - 1].print_date, 'yyyy');
+            }
         }
 
         function onReady() {
@@ -62,6 +63,8 @@
 
         function getDocsByYear(y) {
             if (year != y) {
+                //model.summary = {vat: 0, netto: 0, brutto: 0};
+
                 Document.query({year: y}).$promise.then(function(results) {
                     documents.length = 0;
                     angular.extend(documents, results);
