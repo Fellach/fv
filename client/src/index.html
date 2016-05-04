@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="fv" ng-controller="AppController">
+<html ng-app="fv" ng-controller="AppController as app">
 <head>
   <title ng-bind="pageTitle"></title>
   <meta charset="utf-8" />
@@ -21,6 +21,7 @@
         <ul id="nav-mobile" class="left hide-on-med-and-down">
           <li ui-sref-active="active"><a ui-sref="fv.documents"><i class="medium material-icons left">view_list</i> Faktury</a></li>
           <li ui-sref-active="active"><a ui-sref="fv.clients"><i class="medium material-icons left">group</i> Klienci</a></li>
+          <li><a href="/logout"><i class="medium material-icons left">power_settings_new</i> Wyloguj</a></li>
         </ul>
       </div>
     </nav>
@@ -30,7 +31,7 @@
   </header>
 
   <div ui-view="aside"></div>
-  
+
   <section>
     <div class="container">
       <ng-include src="'helper/loader.tpl.html'"></ng-include>
@@ -38,7 +39,6 @@
     </div>
   </section>
 
-  <footer class="container">
-  </footer>
+  <footer class="container"></footer>
 </body>
 </html>

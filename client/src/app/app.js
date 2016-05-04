@@ -1,7 +1,16 @@
 (function(app) {
 
     app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-        $httpProvider.defaults.withCredentials = true;
+        $httpProvider.interceptors.push(function() {
+          return {
+             response: function(response) {
+               if (response.status === 403) {
+                  document.location.href = 'login';
+               }
+               return response;
+            }
+          };
+        });
 
         $urlRouterProvider.otherwise('/documents');
 
@@ -39,11 +48,11 @@
         init();
 
         function init() {
-            $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){ 
+            $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
                 $rootScope.loaded = true;
                 $rootScope.stateName = toState.name;
             });
-            $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams){ 
+            $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams){
                 $rootScope.error = true;
             });
         }
@@ -61,5 +70,5 @@
     'fv.entity.options',
     'fv.entity.client',
     'fv.entity.document',
-    'ng-currency'
+    'ng-currency',
 ])));

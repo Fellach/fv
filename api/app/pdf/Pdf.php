@@ -4,23 +4,23 @@ class Pdf
 {
     private $doc, $filename, $options;
 
-    function __construct($idOrDoc) 
+    function __construct($idOrDoc)
     {
         if ($idOrDoc instanceof \Document) {
             $this->doc = $idOrDoc;
         } else {
             $this->doc = \Document::where('id', '=', $idOrDoc)->with(array('items', 'client'))->first();
         }
-        $this->filename = dirname(__FILE__) . '/../../docs/fv' . $this->doc->serial_number . '.pdf';
+        $this->filename = dirname(__FILE__) . "/../../docs/fv{$this->doc->serial_number}z{$this->doc->print_date}.pdf";
     }
 
     public function generate()
     {
         $this->options = \Options::getArray();
-        
+
         $pdf = new \mPDF();
 
-        $pdf->SetImportUse(); 
+        $pdf->SetImportUse();
         $pdf->SetHTMLHeader($header);
         $pagecount = $pdf->SetSourceFile(dirname(__FILE__) . '/../view/template.pdf');
         $tplIdx = $pdf->ImportPage($pagecount);
@@ -40,7 +40,7 @@ class Pdf
 
     private function dec($float)
     {
-        return number_format((float)$float, 2, ',', ''); 
+        return number_format((float)$float, 2, ',', '');
     }
 
     private function html()
@@ -70,7 +70,7 @@ class Pdf
                     Data wystawienia: <span class=\"thin\">{$this->doc->print_date}</span>
                     Data dokonania: <span class=\"thin\">{$this->doc->sell_date}</span>";
             }
-         
+
          $return .= "
             </p>
         </div>
@@ -92,7 +92,7 @@ class Pdf
                 NIP: {$this->doc->client->nip}</p>
             </div>
         </div>
-        
+
         <div>
             <table class=\"thin tp3\">
                 <thead>
@@ -114,7 +114,7 @@ class Pdf
                 $i = 0;
                 foreach ($this->doc->items as $item) {
                     $i++;
-                    $return .= 
+                    $return .=
                    "<tr>
                         <td class=\"center-align\">$i</td>
                         <td>{$item->title}</td>
@@ -128,9 +128,9 @@ class Pdf
 
                     $taxValues[$item->vat] += $item->netto;
                 }
-                
+
                 $payment = ucfirst($this->doc->payment);
-                
+
                 $return .=
                     "<tr>
                         <td colspan=\"4\"></td>
@@ -141,7 +141,7 @@ class Pdf
                     </tr>";
 
                 foreach ($taxValues as $vat => $netto) {
-                    $vatV = $netto * $vat / 100;
+                    $vatV = round($netto * $vat / 100, 2);
                     $brutto = $netto + $vatV;
 
                     $return .=
@@ -153,7 +153,7 @@ class Pdf
                         <td class=\"right-align\">" . $this->dec($brutto) ."</td>
                     </tr>";
                 }
-                
+
                 $return .=
                 "</tbody>
             </table>
@@ -175,7 +175,7 @@ class Pdf
                 do {$offset} r. na konto bankowe nr {$this->options[bank_account][0]}
                 ";
             }
-            $return .= 
+            $return .=
             "
             </p>
         </div>

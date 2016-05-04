@@ -180,7 +180,7 @@ module.exports = function(grunt) {
             compile_assets: {
                 files: [
                 {
-                    src: [ 
+                    src: [
                     'css/<%= pkg.name %>-<%= pkg.version %>.css',
                     'font/**'
                     ],
@@ -429,12 +429,12 @@ module.exports = function(grunt) {
                 proxies: [
                     {
                         context: '/api',
-                        host: 'fv.majuskula.pl',
+                        host: 'fv.domuslug.pl',
                         port: 80,
                         changeOrigin: true,
                         xforward: false,
                         headers: {
-                            Host: 'fv.majuskula.pl',
+                            Host: 'fv.domuslug.pl',
                         }
                     }
                 ]
@@ -619,7 +619,7 @@ module.exports = function(grunt) {
         'clean:all', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:build',
         'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
         'copy:build_appjs', 'copy:build_vendorjs', 'ngAnnotate:build', 'index:build'
-        
+
         ]);
 
     // The 'compile' task gets your app ready for deployment by concatenating and minifying your code.

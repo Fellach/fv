@@ -18,22 +18,51 @@ $app = new \Slim\Slim(array(
 	'id' => '\d+'
 ));
 
-$app->add(new \Auth());
-
-
 $app->get('/', function () use ($app) {
 	$app->response->headers->set('Content-Type', 'text/html');
-	$app->render('index.html');
+
+	if (empty($_SESSION['user'])){
+		$app->render('login.html');
+	} else {
+		$app->render('index.html');
+	}
 });
 
+$app->get('/login', function () use ($app) {
+    $app->response->headers->set('Content-Type', 'text/html');
+    $app->render('login.html');
+});
+
+$app->get('/logout', function () use ($app) {
+    $app->deleteCookie('PHPSESSID');
+    $_SESSION = array();
+    session_destroy();
+
+    $app->response->redirect('/');
+});
+
+$app->post('/login', function () use ($app) {
+  $user = new \User();
+
+  if ($logged = $user->login($app->request->post('username'), $app->request->post('password'))) {
+    	$_SESSION['user'] = $logged->id;
+      $app->response->redirect('/');
+  } else {
+      $app->render('login.html');
+  }
+});
 
 $app->group('/api', function () use ($app) {
+	if (empty($_SESSION['user'])){
+		$app->halt(403);
+	}
+},function () use ($app) {
 
 	//$app->response->headers->set('Content-Type', 'application/json');
 
 	/**
 	 * FV
-	 * 
+	 *
 	 */
 	$app->group('/document', function () use ($app) {
 
@@ -56,7 +85,7 @@ $app->group('/api', function () use ($app) {
 			$doc = \Document::where('id', '=', $id)->with(array('items', 'client'))->first();
 			echo $doc->toJson();
 		});
-		
+
 		//save
 		$app->post('/', function () use ($app) {
 
@@ -68,7 +97,7 @@ $app->group('/api', function () use ($app) {
 
 			echo $doc->toJson();
 		});
-		
+
 		//update
 		$app->put('/:id', function ($id) use ($app) {
 
@@ -94,7 +123,7 @@ $app->group('/api', function () use ($app) {
 
 			$doc = \Document::find($id);
 			$doc->items()->find($id_item)->delete();
-			echo json_encode(array('status' => 200)); 
+			echo json_encode(array('status' => 200));
 		});
 
 		// pdf
@@ -135,7 +164,7 @@ $app->group('/api', function () use ($app) {
 
 	/**
 	 * Clients
-	 * 
+	 *
 	 */
 	$app->group('/client', function () use ($app) {
 
@@ -168,7 +197,7 @@ $app->group('/api', function () use ($app) {
 			$request = json_decode($app->request->getBody(), true);
 			deleteClient($request['id']);
 			unset($request['id']);
-			
+
 			$client = \Client::create($request);
 			echo $client->toJson();
 		});
@@ -184,7 +213,7 @@ $app->group('/api', function () use ($app) {
 
 	/**
 	 * Options
-	 * 
+	 *
 	 */
 	$app->group('/options', function () use ($app) {
 
@@ -195,26 +224,16 @@ $app->group('/api', function () use ($app) {
 			echo $ops->toJson();
 		});
 	});
+	$app->get('/user/create/:user/:pass', function ($name, $pass) {
+
+		$user = new \User();
+		$user->name = $name;
+		$user->password = $pass;
+		$user->save();
+		echo "ok";
+	});
 });
 
-
-$app->get('/user/create/:user/:pass', function ($name, $pass) {
-
-	$user = new \User();
-	$user->name = $name;
-	$user->password = $pass;
-	$user->save();
-	echo "ok";
-});
-
-$app->get('/logout', function () use ($app) {
-	$app->deleteCookie('PHPSESSID');
-	$_SESSION = array();
-	session_destroy();
-
-	echo "bye";
-	$app->response->redirect('/', 401);	
-});
 
 $app->run();
 
