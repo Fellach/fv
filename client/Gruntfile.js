@@ -85,11 +85,11 @@ module.exports = function(grunt) {
             'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
             'vendor/angular-ui-router/release/angular-ui-router.js',
             'vendor/angular-ui-utils/modules/route/route.js',
-            'vendor/materialize/bin/materialize.js',
+            'vendor/materialize/dist/js/materialize.js',
             'vendor/ng-currency/dist/ng-currency.js',
             ],
             css: [
-            'vendor/materialize/bin/materialize.css'
+            'vendor/materialize/dist/css/materialize.css'
             ],
             assets: [
                 //'vendor/materialize/dist/font'

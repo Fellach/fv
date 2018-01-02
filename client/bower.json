@@ -10,5 +10,8 @@
     "materialize": "*",
     "ng-currency": "~0.8.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "angular": "1.6.8"
+  }
 }
