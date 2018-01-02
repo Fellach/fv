@@ -11,7 +11,7 @@
         model.month = '';
         model.months = {};
         model.monthsFilter = monthsFilter;
-        model.years = [2015, 2016];
+        model.years = [];
         model.getDocsByYear = getDocsByYear;
 
         var year;
@@ -20,6 +20,10 @@
 
         function init() {
             createFilters();
+
+            for (var y = 2015; y <= new Date().getFullYear(); y++) {
+                model.years.push(y);
+            }
 
             $timeout(onReady);
         }
@@ -63,7 +67,7 @@
 
         function getDocsByYear(y) {
             if (year != y) {
-                //model.summary = {vat: 0, netto: 0, brutto: 0};
+                model.summary = {vat: 0, netto: 0, brutto: 0};
 
                 Document.query({year: y}).$promise.then(function(results) {
                     documents.length = 0;

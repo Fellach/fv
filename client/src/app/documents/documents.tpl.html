@@ -10,7 +10,7 @@
 			<ul class="pagination">
 				<li class="disabled">rok:</li>
 				<li ng-repeat="year in model.years"><a class="waves-effect" ng-click="model.getDocsByYear(year);">{{ year }}</a></li>
-				<li class="disabled">mc:</li>
+				<li ng-click="model.month = 0">mc:</li>
 				<li ng-repeat="(i, m) in model.months"><a class="waves-effect" ng-click="model.month = i;">{{ i }}</a></li>
 			</ul>
 		</div>	
@@ -23,6 +23,7 @@
 						<th class="center-align">Numer</th>
 						<th class="center-align">Netto</th>
 						<th class="center-align">Vat</th>
+						<th class="center-align">Brutto</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -32,11 +33,13 @@
 						<td class="center-align">{{ doc.serial_number }}{{ doc.serial_number_suffix }}</td>
 						<td class="right-align">{{ doc.netto | currency }}</td>
 						<td class="right-align">{{ doc.vat | currency }}</td>
+						<td class="right-align">{{ doc.brutto | currency }}</td>
 					</tr>
-					<tr class="summary">
+					<tr class="summary" ng-if="model.documents.length > 0">
 						<td colspan="3"></td>
 						<td class="right-align">{{ model.summary.netto | currency  }}</td>
 						<td class="right-align">{{ model.summary.vat | currency  }}</td>
+						<td class="right-align">{{ model.summary.brutto | currency  }}</td>
 					</tr>
 				</tbody>
 			</table>

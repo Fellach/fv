@@ -34,8 +34,9 @@
 
   <section>
     <div class="container">
-      <ng-include src="'helper/loader.tpl.html'"></ng-include>
-      <main ui-view="main"></main>
+      <main ui-view="main">
+        <ng-include src="'helper/loader.tpl.html'"></ng-include>
+      </main>
     </div>
   </section>
 
